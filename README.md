@@ -1,49 +1,28 @@
-<table border=0 cellpadding=0 cellspacing=0 valign='top'><tr>
-<td><a href='https://www.getmangos.eu' target='getmangos.eu'><img src='https://www.getmangos.eu/!assets_mangos/logo.png' border=0></a></td>
-<td valign='top'>
-<a href='https://www.getmangos.eu/forums/' target='getmangos.forum'><img src='/icons/FORUM.gif' border=0></a>
-<a href='https://www.getmangos.eu/wiki' target='getmangos.wiki'><img src='/icons/WIKI.gif' border=0></a>
-<a href='https://www.getmangos.eu/github-activity/' target='getmangos.activity'><img src='/icons/ACTIVITY.gif' border=0></a>
-<a href='https://www.getmangos.eu/bug-tracker/mangos-three/' target='getmangos.tracker'><img src='/icons/TRACKER.gif' border=0></a>
-<br />Build Status: <br/>Linux 
-<a href='https://travis-ci.org/mangosthree/server/builds' target='MangosThree'><img src='https://travis-ci.org/mangosthree/server.png' border=0></a>
- Windows 
-<a href='https://ci.appveyor.com/project/MaNGOS/server-wtbhv/history' target='MangosThree'><img src='https://ci.appveyor.com/api/projects/status/github/mangosthree/server?branch=develop21&svg=true' border=0></a>
-</td></tr></table>
-
-Cataclysm WOW BRANCH
+MoltenWyrm Server Core
 ===
-### A World of Warcraft server for the Cataclysm Expansion of WoW  
+### Custom server for World of Warcraft 4.3.4
 ----
-*Mangos* is open source project, built in [C++][7], it's fast, runs on multiple
+*MoltenWyrm* is closed source project, built in [C++][7], it's fast, runs on multiple
 platforms, can store game data in [MySQL][40] and [PostgreSQL][42]. It also has
 optional support for SOAP, and aims to be 100% compatible with [World of Warcraft][2]
 in its Cataclysm version supporting clients from the [patch 4.3.4][5] branch, 
 specifically patch 4.3.4.
 
-If you liked the fourth incarnation of [World of Warcraft][2] and still want to play
-[cata WoW][5], this is the branch for you. We provide an authentication
-server where you can manage your users, and a world server which serves game
-content just like the original did back then.
-
-On top of that each update is built by [Travis CI][16] as you can see by the
-image next to the chapter's heading! We do love green builds, and working things.
-To complement this, we push builds through [Coverity][17] to find and fix any
-possible security issues.
+It's a fork of [NomadicWow], which is based on [MangosThree].
 
 World of Warcraft, and all World of Warcraft or Warcraft art, images, and lore are
 copyrighted by [Blizzard Entertainment, Inc.][1]
 
 Requirements
 ------------
-The *Mangos* server supports a wide range of operating systems, and various
+The *MoltenWyrm* server supports a wide range of operating systems, and various
 compiler platforms. In order to do that, we use various free cross-platform
 libraries and use [CMake][19] to provide a cross-platform build system which
 adapts to your chosen operating system and compiler.
 
 Operating systems
 -----------------
-Currently we support running *Mangos* on these operating systems:
+Currently we support running *MoltenWyrm* on these operating systems:
 
 * **Windows**, 32 bit and 64 bit. [Windows][20] Server 2008 (or newer) or Windows 7 (or newer) is recommended.
 * **Linux**, 32 bit and 64 bit. [Debian 7][21] and [Ubuntu 12.04 LTS][22] are
@@ -65,12 +44,13 @@ Building *Mangos* is currently possible with these compilers:
 * **Microsoft Windows SDK**, 32 bit and 64 bit. The [Windows 7 SDK][32] is
   recommended, as older versions lack compiler features required to build
   the server.
+  
 * **Clang**, 32 bit and 64 bit. The [Clang compiler][33] can be used on any
   supported operating system.[^2]
 
 Dependencies
 ------------
-The *Mangos* server stands on the shoulders of well-known Open Source
+The *MoltenWyrm* server stands on the shoulders of well-known Open Source
 libraries, and a few awesome, but less known libraries to prevent us from
 inventing the wheel again.
 
@@ -99,66 +79,16 @@ their systems package management instead of source packages.*
   scripting environment, which allows us to make live changes to scripted
   content.
 
-*ACE*, *Recast*, *G3D* and *libmpq* are included in the *Mangos* distribution as
+*ACE*, *Recast*, *G3D* and *libmpq* are included in the *MoltenWyrm* distribution as
 we rely on specific versions.
 
-Optional dependencies
----------------------
-
-* **Doxygen**: if you want to export HTML or PDF formatted documentation for the
-  *Mangos* API, you should install [Doxygen][49].
-* **Lua**: if you want to test drive how *Mangos* feels with [Lua][50] as
-  scripting language instead of the scripting library, you will need Lua **5.2.3**
-  installed. Although an internal version is included.
-
-Discuss
--------
-If you need help with building and installing *Mangos* there are thousands of
-users out there already running *Mangos* and many more you can find on our
-project website and discussion forum to assist with any issues you may have.
-
-* [getmangos.eu][10]
-
-License
--------
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
-Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-The full license is included in the file `License.md`.
-
-In addition, as a special exception, permission is granted to link the code of
-*Mangos* with the OpenSSL project's [OpenSSL library][48] (or with modified
-versions of it that use the same license as the OpenSSL library), and distribute
-the linked executables. You must obey the GNU General Public License in all
-respects for all of the code used other than [OpenSSL][48].
-
-
-[^1]: Visual Studio Express versions prior to the 2012 release can only
-      build 32 bit applications, unless you install the Windows SDK.
-[^2]: Clang support for Windows is experimental. Failure to compile Mangos
-      may also relate to the experimental state of the port.
+[NomadicWow]: https://github.com/jubel02/NomadicWow "NomadicWow Open Source Server Emulator [4.3.4]"
+[MangosThree]: https://github.com/mangosthree/server "Mangos THREE is a server for World of Warcraft: Cataclysm"
 
 [1]: http://blizzard.com/ "Blizzard Entertainment Inc. · we love you!"
 [2]: http://battle.net/wow/ "World of Warcraft"
 [5]: http://www.wowpedia.org/Patch_4.3.4 "WoW Cataclysm· Patch 4.3.4 release notes"
 [7]: http://www.cppreference.com/ "C / C++ reference"
-
-[10]: https://getmangos.eu/ "mangos · project site"
-[12]: http://github.com/mangosthree "MaNGOS Three· github organization"
-[13]: http://github.com/mangosthree/server "MaNGOS Three · server repository"
-[15]: http://github.com/mangosthree/database "MaNGOS Three · content database repository"
-[16]: https://travis-ci.org/mangosthree/server "Travis CI . MaNGOS Three build status"
-[17]: https://scan.coverity.com/ "Coverity Scan · Static Code Analysis"
 
 [19]: http://www.cmake.org/ "CMake · Cross Platform Make"
 [20]: http://windows.microsoft.com/ "Microsoft Windows · that OS, yes."
