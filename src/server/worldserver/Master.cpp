@@ -133,17 +133,30 @@ int Master::Run()
     BigNumber seed1;
     seed1.SetRand(16 * 8);
 
-    TC_LOG_INFO("server.worldserver", "%s (worldserver-daemon)", _FULLVERSION);
-    TC_LOG_INFO("server.worldserver", " ");
-    TC_LOG_INFO("server.worldserver", " A World of Warcraft Cataclsym 4.3.4 Emulator  ");
-    TC_LOG_INFO("server.worldserver", "       _/_/              _/          _/_/_/    _/_/    _/_/_/    _/_/_/_/  ");
-    TC_LOG_INFO("server.worldserver", "    _/    _/  _/  _/_/  _/  _/    _/        _/    _/  _/    _/  _/         ");
-    TC_LOG_INFO("server.worldserver", "   _/_/_/_/  _/_/      _/_/      _/        _/    _/  _/_/_/    _/_/_/      ");
-    TC_LOG_INFO("server.worldserver", "  _/    _/  _/        _/  _/    _/        _/    _/  _/    _/  _/           ");
-    TC_LOG_INFO("server.worldserver", " _/    _/  _/        _/    _/    _/_/_/    _/_/    _/    _/  _/_/_/_/   NG ");
-    TC_LOG_INFO("server.worldserver", " Arkania Community (c) 2016!                         <http://arkania.net/> ");
-    TC_LOG_INFO("server.worldserver", " ");
-    TC_LOG_INFO("server.worldserver", "<Ctrl-C> to stop.\n");
+	TC_LOG_INFO("server.worldserver", "   ,,                                                              ");
+	TC_LOG_INFO("server.worldserver", "  `''*$b..                   " _PACKAGENAME "                      ");
+	TC_LOG_INFO("server.worldserver", "       ''*$o.               World Server                           ");
+	TC_LOG_INFO("server.worldserver", "           '$$o.     " FILEVERSION " (" BUILD_PLATFORM ")          ");
+	TC_LOG_INFO("server.worldserver", "             '*$$o.                                                ");
+	TC_LOG_INFO("server.worldserver", "                '$$$o.                                             ");
+	TC_LOG_INFO("server.worldserver", "                  '$$$$bo...       ..o:                            ");
+	TC_LOG_INFO("server.worldserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
+	TC_LOG_INFO("server.worldserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
+	TC_LOG_INFO("server.worldserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
+	TC_LOG_INFO("server.worldserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
+	TC_LOG_INFO("server.worldserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
+	TC_LOG_INFO("server.worldserver", "                 '$$$o.4$$$$$$$$X                                  ");
+	TC_LOG_INFO("server.worldserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
+	TC_LOG_INFO("server.worldserver", "                         .X$$$$$$$$$$$P                            ");
+	TC_LOG_INFO("server.worldserver", "                        $$P''V$$$$$$$:    .                        ");
+	TC_LOG_INFO("server.worldserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
+	TC_LOG_INFO("server.worldserver", "                           .oP''   '$$$$$$b.  .$;                  ");
+	TC_LOG_INFO("server.worldserver", "                                    A$$$$$$$$$$P                   ");
+	TC_LOG_INFO("server.worldserver", "         ----------------------     '  '$$$$$P'                    ");
+	TC_LOG_INFO("server.worldserver", "         - (c)2017 MoltenWyrm -         $$P*'                      ");
+	TC_LOG_INFO("server.worldserver", "         ----------------------        .$'                         ");
+	TC_LOG_INFO("server.worldserver", "                                       '                           ");
+	TC_LOG_INFO("server.worldserver", "\n");
 
     /// worldserver PID file creation
     std::string pidFile = sConfigMgr->GetStringDefault("PidFile", "");

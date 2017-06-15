@@ -25,7 +25,10 @@
 #include "Define.h"
 #include "revision.h"
 
-#define _PACKAGENAME "ArkCORE4-NG"
+#define _PACKAGENAME			"MoltenWyrm"
+#define COMPANYNAME_STR			"MoltenWyrm Developers"
+#define LEGALCOPYRIGHT_STR		"(c)2017 MoltenWyrm"
+#define FILEVERSION				"Beta 0.1.0"
 
 #if TRINITY_ENDIAN == TRINITY_BIGENDIAN
 # define _ENDIAN_STRING "big-endian"
@@ -36,10 +39,13 @@
 #if PLATFORM == PLATFORM_WINDOWS
 # ifdef _WIN64
 #  define _FULLVERSION _PACKAGENAME " rev. " VER_PRODUCTVERSION_STR " (Win64, " _BUILD_DIRECTIVE ")"
+#  define BUILD_PLATFORM "Win64, " _BUILD_DIRECTIVE
 # else
 #  define _FULLVERSION _PACKAGENAME " rev. " VER_PRODUCTVERSION_STR " (Win32, " _BUILD_DIRECTIVE ")"
+#  define BUILD_PLATFORM "Win32, " _BUILD_DIRECTIVE
 # endif
 #else
 #  define _FULLVERSION _PACKAGENAME " rev. " VER_PRODUCTVERSION_STR " (Unix, " _BUILD_DIRECTIVE ")"
+#  define BUILD_PLATFORM "Linux, " _BUILD_DIRECTIVE
 #endif
 #endif

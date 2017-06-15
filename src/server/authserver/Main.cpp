@@ -112,20 +112,33 @@ extern int main(int argc, char** argv)
         return 1;
     }
 
-    TC_LOG_INFO("server.authserver", "%s (authserver)", _FULLVERSION);
-    TC_LOG_INFO("server.authserver", " ");
-    TC_LOG_INFO("server.authserver", " A World of Warcraft Cataclsym 4.3.4 Emulator    ");
-    TC_LOG_INFO("server.authserver", "       _/_/              _/          _/_/_/    _/_/    _/_/_/    _/_/_/_/  ");
-    TC_LOG_INFO("server.authserver", "    _/    _/  _/  _/_/  _/  _/    _/        _/    _/  _/    _/  _/         ");
-    TC_LOG_INFO("server.authserver", "   _/_/_/_/  _/_/      _/_/      _/        _/    _/  _/_/_/    _/_/_/      ");
-    TC_LOG_INFO("server.authserver", "  _/    _/  _/        _/  _/    _/        _/    _/  _/    _/  _/           ");
-    TC_LOG_INFO("server.authserver", " _/    _/  _/        _/    _/    _/_/_/    _/_/    _/    _/  _/_/_/_/      ");
-    TC_LOG_INFO("server.authserver", " Arkania Community (c) 2016!                         <http://arkania.net/> ");
-    TC_LOG_INFO("server.authserver", " ");    
-    TC_LOG_INFO("server.authserver", "<Ctrl-C> to stop.\n");
-    TC_LOG_INFO("server.authserver", "Using configuration file %s.", configFile);
+	TC_LOG_INFO("server.authserver", "   ,,                                                              ");
+	TC_LOG_INFO("server.authserver", "  `''*$b..                   " _PACKAGENAME "                      ");
+	TC_LOG_INFO("server.authserver", "       ''*$o.           Authentication Server                      ");
+	TC_LOG_INFO("server.authserver", "           '$$o.     " FILEVERSION " (" BUILD_PLATFORM ")          ");
+	TC_LOG_INFO("server.authserver", "             '*$$o.                                                ");
+	TC_LOG_INFO("server.authserver", "                '$$$o.                                             ");
+	TC_LOG_INFO("server.authserver", "                  '$$$$bo...       ..o:                            ");
+	TC_LOG_INFO("server.authserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
+	TC_LOG_INFO("server.authserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
+	TC_LOG_INFO("server.authserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
+	TC_LOG_INFO("server.authserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
+	TC_LOG_INFO("server.authserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
+	TC_LOG_INFO("server.authserver", "                 '$$$o.4$$$$$$$$X                                  ");
+	TC_LOG_INFO("server.authserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
+	TC_LOG_INFO("server.authserver", "                         .X$$$$$$$$$$$P                            ");
+	TC_LOG_INFO("server.authserver", "                        $$P''V$$$$$$$:    .                        ");
+	TC_LOG_INFO("server.authserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
+	TC_LOG_INFO("server.authserver", "                           .oP''   '$$$$$$b.  .$;                  ");
+	TC_LOG_INFO("server.authserver", "                                    A$$$$$$$$$$P                   ");
+	TC_LOG_INFO("server.authserver", "         ----------------------     '  '$$$$$P'                    ");
+	TC_LOG_INFO("server.authserver", "         - (c)2017 MoltenWyrm -         $$P*'                      ");
+	TC_LOG_INFO("server.authserver", "         ----------------------        .$'                         ");
+	TC_LOG_INFO("server.authserver", "                                       '                           ");
+	TC_LOG_INFO("server.authserver", "\n");
 
-    TC_LOG_INFO("server.authserver", "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
+    TC_LOG_INFO("server.authserver", "Using configuration file %s.", configFile);
+    //TC_LOG_INFO("server.authserver", "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
 
 #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
     ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
