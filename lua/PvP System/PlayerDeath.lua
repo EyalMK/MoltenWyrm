@@ -63,10 +63,12 @@ local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
     end
 
     -- All checks passed, let's drop items !
-    for slot = 0, 18 do
-      local item = p_victim:GetItemByPos( 255, slot );
-      if item then
-        p_victim:RemoveItem(item, 1);
+    if m_gm == false then
+      for slot = 0, 18 do
+        local item = p_victim:GetItemByPos( 255, slot );
+        if item then
+          p_victim:RemoveItem(item, 1);
+        end
       end
     end
 
