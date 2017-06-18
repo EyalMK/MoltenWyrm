@@ -137,30 +137,27 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/server/scripts/PrecompiledHeaders
   )	
 
-	target_link_libraries(LuaEngine
-    game
-  )
-	
+  target_link_libraries(LuaEngine game)	
   add_dependencies(LuaEngine game)
   
   if( WIN32 )
     if ( MSVC )
       add_custom_command(TARGET LuaEngine
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/lua_scripts/extensions/
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/extensions ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/lua_scripts/extensions/
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/lua/extensions/
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/extensions ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/../../../lua/extensions/
       )
     elseif ( MINGW )
       add_custom_command(TARGET LuaEngine
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/lua_scripts/extensions/
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/extensions ${CMAKE_BINARY_DIR}/bin/lua_scripts/extensions/
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/../../../lua/extensions/
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/extensions ${CMAKE_BINARY_DIR}/bin/../../../lua/extensions/
       )
     endif()
   endif()
   
   if( UNIX )
-    install(DIRECTORY extensions DESTINATION bin/lua_scripts/)
+    install(DIRECTORY extensions DESTINATION bin/../../../lua/)
   elseif( WIN32 )
-    install(DIRECTORY extensions DESTINATION "${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/lua_scripts/")
+    install(DIRECTORY extensions DESTINATION "${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/../../../lua/")
   endif()
