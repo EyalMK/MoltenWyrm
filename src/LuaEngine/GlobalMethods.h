@@ -486,12 +486,18 @@ namespace LuaGlobalFunctions
 		if (locale >= TOTAL_LOCALES)
 			return luaL_argerror(L, 2, "valid LocaleConstant expected");
 
+		if (areaOrZoneId == 0)
+		{
+			Eluna::Push(L, "Unknown"); // Prevent function from halting if unknown area
+			return 1;
+		}
+
 		AreaTableEntry const* areaEntry = GetAreaEntryByAreaID(areaOrZoneId);
 
 		if (!areaEntry)
 			return luaL_argerror(L, 1, "valid Area or Zone ID expected");
 
-		Eluna::Push(L, areaEntry->area_name[locale]);
+		Eluna::Push(L, areaEntry->area_name);
 		return 1;
 	}
 
@@ -502,6 +508,12 @@ namespace LuaGlobalFunctions
 
 		if (locale >= TOTAL_LOCALES)
 			return luaL_argerror(L, 2, "valid LocaleConstant expected");
+
+		if (areaOrZoneId == 0)
+		{
+			Eluna::Push(L, false); // Unknown area are not treated as Sanctuary
+			return 1;
+		}
 
 		AreaTableEntry const* areaEntry = GetAreaEntryByAreaID(areaOrZoneId);
 
