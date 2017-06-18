@@ -24,6 +24,10 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#ifdef ELUNA
+	#include "LuaEngine.h"
+#endif
+
 void BuildPlayerLockDungeonBlock(WorldPacket& data, lfg::LfgLockMap const& lock)
 {
     data << uint32(lock.size());                           // Size of lock dungeons
@@ -82,6 +86,12 @@ void BuildQuestReward(WorldPacket& data, Quest const* quest, Player* player)
 
 void WorldSession::HandleLfgJoinOpcode(WorldPacket& recvData)
 {
+	TC_LOG_DEBUG("lfg", "CMSG_LFG_JOIN received from %s", GetPlayerInfo().c_str());
+
+	#ifdef ELUNA
+		sEluna->OnRequestLFG( GetPlayer() );
+	#endif
+
     if (!sLFGMgr->isOptionEnabled(lfg::LFG_OPTION_ENABLE_DUNGEON_FINDER | lfg::LFG_OPTION_ENABLE_RAID_BROWSER) ||
         (GetPlayer()->GetGroup() && GetPlayer()->GetGroup()->GetLeaderGUID() != GetPlayer()->GetGUID() &&
         (GetPlayer()->GetGroup()->GetMembersCount() == MAXGROUPSIZE || !GetPlayer()->GetGroup()->isLFGGroup())))

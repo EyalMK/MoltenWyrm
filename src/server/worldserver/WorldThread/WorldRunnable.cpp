@@ -33,6 +33,10 @@
 #include "WorldRunnable.h"
 #include "OutdoorPvPMgr.h"
 
+#ifdef ELUNA
+#include "LuaEngine.h"
+#endif
+
 #define WORLD_SLEEP_CONST 50
 
 #ifdef _WIN32
@@ -96,4 +100,8 @@ void WorldRunnable::run()
     sObjectAccessor->UnloadAll();             // unload 'i_player2corpse' storage and remove from world
     sScriptMgr->Unload();
     sOutdoorPvPMgr->Die();
+
+	#ifdef ELUNA
+		Eluna::Uninitialize();
+	#endif
 }

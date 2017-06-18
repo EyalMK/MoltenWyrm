@@ -36,7 +36,7 @@
 #include "WorldSession.h"
 
 class Player;
-//class Map;
+class Map;
 
 namespace Trinity
 {

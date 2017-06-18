@@ -49,6 +49,10 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#ifdef ELUNA
+	#include "LuaEngine.h"
+#endif
+
 //bot
 #include "Config.h"
 
@@ -1113,7 +1117,9 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         SendNotification(LANG_RESET_TALENTS);
     }
 
-    if (pCurrChar->HasAtLoginFlag(AT_LOGIN_FIRST))
+	bool firstLogin = pCurrChar->HasAtLoginFlag(AT_LOGIN_FIRST);
+
+    if (firstLogin)
     {
         pCurrChar->RemoveAtLoginFlag(AT_LOGIN_FIRST);
 
@@ -1190,7 +1196,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         }
     }
     
-    sScriptMgr->OnPlayerLogin(pCurrChar);
+    sScriptMgr->OnPlayerLogin(pCurrChar, firstLogin);
     delete holder;
 }
 

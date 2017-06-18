@@ -980,6 +980,11 @@ public:
     void SwapItemsWithInventory(Player* player, bool toChar, uint8 tabId, uint8 slotId, uint8 playerBag, uint8 playerSlotId, uint32 splitedAmount);
     void AddMoneyToBank(uint64 money) { m_bankMoney += money; }
 
+#ifdef ELUNA
+	// TODO : Use GetMembersCount() instead
+	uint32 GetMemberSize() const { return m_members.size(); }
+#endif
+
     // Bank tabs
     void SetBankTabText(uint8 tabId, std::string const& text);
 

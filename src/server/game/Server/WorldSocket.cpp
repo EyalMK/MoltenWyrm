@@ -47,6 +47,10 @@
 #include "ScriptMgr.h"
 #include "AccountMgr.h"
 
+#ifdef ELUNA
+#include "LuaEngine.h"
+#endif
+
 #if defined(__GNUC__)
 #pragma pack(1)
 #else
@@ -708,11 +712,18 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
             case CMSG_KEEP_ALIVE:
                 TC_LOG_DEBUG("network", "%s", opcodeName.c_str());
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+				if (!sEluna->OnPacketReceive(m_Session, WorldPacket(*new_pct)))
+					break;
+#endif
                 return 0;
             case CMSG_LOG_DISCONNECT:
                 new_pct->rfinish(); // contains uint32 disconnectReason;
                 TC_LOG_DEBUG("network", "%s", opcodeName.c_str());
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+				sEluna->OnPacketReceive(m_Session, WorldPacket(*new_pct));
+#endif
                 return 0;
             // not an opcode, client sends string "WORLD OF WARCRAFT CONNECTION - CLIENT TO SERVER" without opcode
             // first 4 bytes become the opcode (2 dropped)
@@ -730,6 +741,10 @@ int WorldSocket::ProcessIncoming(WorldPacket* new_pct)
             {
                 TC_LOG_DEBUG("network", "%s", opcodeName.c_str());
                 sScriptMgr->OnPacketReceive(this, WorldPacket(*new_pct));
+#ifdef ELUNA
+				if (!sEluna->OnPacketReceive(m_Session, WorldPacket(*new_pct)))
+					break;
+#endif
                 return m_Session ? m_Session->HandleEnableNagleAlgorithm() : -1;
             }
             default:

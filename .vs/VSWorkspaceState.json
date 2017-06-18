@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\server",
+    "\\src\\server\\scripts",
+    "\\src\\server\\scripts\\Commands"
+  ],
+  "SelectedNode": "\\src\\server\\scripts\\Commands\\cs_npc.cpp",
+  "PreviewInSolutionExplorer": false
+}

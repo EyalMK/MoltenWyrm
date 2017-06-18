@@ -33,6 +33,10 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#ifdef ELUNA
+	#include "LuaEngine.h"
+#endif
+
 void WorldSession::HandleAutostoreLootItemOpcode(WorldPacket& recvData)
 {
     TC_LOG_DEBUG("network", "WORLD: CMSG_AUTOSTORE_LOOT_ITEM");
@@ -254,6 +258,10 @@ void WorldSession::HandleLootMoneyOpcode(WorldPacket& /*recvData*/)
             data << uint8(1);   // "You loot..."
             SendPacket(&data);
         }
+
+		#ifdef ELUNA
+			sEluna->OnLootMoney(player, loot->gold);
+		#endif
 
         loot->gold = 0;
 
@@ -519,6 +527,10 @@ void WorldSession::HandleLootMasterGiveOpcode(WorldPacket& recvData)
     target->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_ITEM, item.itemid, item.count);
     target->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_TYPE, item.itemid, item.count, loot->loot_type);
     target->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_LOOT_EPIC_ITEM, item.itemid, item.count);
+
+	#ifdef ELUNA
+		sEluna->OnLootItem(target, newitem, item.count, lootguid);
+	#endif
 
     // mark as looted
     item.count=0;
