@@ -14542,8 +14542,6 @@ void Player::SwapItem(uint16 src, uint16 dst)
             ItemPosCountVec dest;
             InventoryResult msg = CanBankItem(dstbag, dstslot, dest, pSrcItem, false);
 
-			//TC_LOG_ERROR("entities.player.items", "STORAGE:  %s", msg);
-
             if (msg != EQUIP_ERR_OK)
             {
                 SendEquipError(msg, pSrcItem, NULL);
