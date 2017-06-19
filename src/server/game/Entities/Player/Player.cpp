@@ -11821,8 +11821,7 @@ Item* Player::GetUseableItemByPos(uint8 bag, uint8 slot) const
 
 Bag* Player::GetBagByPos(uint8 bag) const
 {
-    if ((bag >= INVENTORY_SLOT_BAG_START && bag < INVENTORY_SLOT_BAG_END)
-        || (bag >= BANK_SLOT_BAG_START && bag < BANK_SLOT_BAG_END))
+    if ((bag >= INVENTORY_SLOT_BAG_START && bag < INVENTORY_SLOT_BAG_END) || (bag >= BANK_SLOT_BAG_START && bag < BANK_SLOT_BAG_END))
         if (Item* item = GetItemByPos(INVENTORY_SLOT_BAG_0, bag))
             return item->ToBag();
     return NULL;
@@ -11888,6 +11887,8 @@ uint8 Player::GetAttackBySlot(uint8 slot)
 
 bool Player::IsInventoryPos(uint8 bag, uint8 slot)
 {
+	TC_LOG_DEBUG("entities.player", "Check IsInventoryPos Bag %d / Slot %d", bag, slot);
+
     if (bag == INVENTORY_SLOT_BAG_0 && slot == NULL_SLOT)
         return true;
     if (bag == INVENTORY_SLOT_BAG_0 && (slot >= INVENTORY_SLOT_ITEM_START && slot < INVENTORY_SLOT_ITEM_END))
@@ -11899,8 +11900,10 @@ bool Player::IsInventoryPos(uint8 bag, uint8 slot)
 
 bool Player::IsEquipmentPos(uint8 bag, uint8 slot)
 {
-    if (bag == INVENTORY_SLOT_BAG_0 && (slot < EQUIPMENT_SLOT_END))
-        return true;
+	TC_LOG_DEBUG("entities.player", "Check IsEquipmentPos Bag %d / Slot %d", bag, slot);
+
+	if (bag == INVENTORY_SLOT_BAG_0 && (slot < EQUIPMENT_SLOT_END))
+		return true;
     if (bag == INVENTORY_SLOT_BAG_0 && (slot >= INVENTORY_SLOT_BAG_START && slot < INVENTORY_SLOT_BAG_END))
         return true;
     return false;
@@ -11908,6 +11911,8 @@ bool Player::IsEquipmentPos(uint8 bag, uint8 slot)
 
 bool Player::IsBankPos(uint8 bag, uint8 slot)
 {
+	TC_LOG_DEBUG("entities.player", "Check IsBankPos Bag %d / Slot %d", bag, slot);
+
     if (bag == INVENTORY_SLOT_BAG_0 && (slot >= BANK_SLOT_ITEM_START && slot < BANK_SLOT_ITEM_END))
         return true;
     if (bag == INVENTORY_SLOT_BAG_0 && (slot >= BANK_SLOT_BAG_START && slot < BANK_SLOT_BAG_END))
@@ -11943,6 +11948,10 @@ bool Player::IsValidPos(uint8 bag, uint8 slot, bool explicit_pos)
         // equipment
         if (slot < EQUIPMENT_SLOT_END)
             return true;
+
+		// SkullHack : Allow saving in fake slots
+		//if (slot >= 200)
+		//	return true;
 
         // bag equip slots
         if (slot >= INVENTORY_SLOT_BAG_START && slot < INVENTORY_SLOT_BAG_END)
@@ -13063,9 +13072,17 @@ InventoryResult Player::CanBankItem(uint8 bag, uint8 slot, ItemPosCountVec &dest
     uint32 count = pItem->GetCount();
 
     TC_LOG_DEBUG("entities.player.items", "STORAGE: CanBankItem bag = %u, slot = %u, item = %u, count = %u", bag, slot, pItem->GetEntry(), pItem->GetCount());
+
     ItemTemplate const* pProto = pItem->GetTemplate();
     if (!pProto)
         return swap ? EQUIP_ERR_CANT_SWAP : EQUIP_ERR_ITEM_NOT_FOUND;
+
+	// Skullhack : Prevent player from putting other bag in last slot
+	if( pItem->GetEntry() == 1100 && bag == 255 && slot == 73 )
+	{
+		TC_LOG_DEBUG("entities.player.items", "STORAGE: CanBankItem() return TRUE for MonsterBag.");
+		return EQUIP_ERR_OK;
+	}
 
     // item used
     if (pItem->m_lootGenerated)
@@ -13090,20 +13107,24 @@ InventoryResult Player::CanBankItem(uint8 bag, uint8 slot, ItemPosCountVec &dest
     // in specific slot
     if (bag != NULL_BAG && slot != NULL_SLOT)
     {
-        if (slot >= BANK_SLOT_BAG_START && slot < BANK_SLOT_BAG_END)
-        {
-            if (!pItem->IsBag())
-                return EQUIP_ERR_WRONG_SLOT;
+		if (slot >= BANK_SLOT_BAG_START && slot < BANK_SLOT_BAG_END)
+		{
+			if (!pItem->IsBag())
+				return EQUIP_ERR_WRONG_SLOT;
 
-            if (slot - BANK_SLOT_BAG_START >= GetBankBagSlotCount())
-                return EQUIP_ERR_NO_BANK_SLOT;
+			if (slot - BANK_SLOT_BAG_START >= GetBankBagSlotCount())
+			{
+				TC_LOG_DEBUG("entities.player.items", "STORAGE: Something else tried to be moved in last bank slot.");
+				return EQUIP_ERR_NO_BANK_SLOT;
+			}
 
-            res = CanUseItem(pItem, not_loading);
-            if (res != EQUIP_ERR_OK)
-                return res;
-        }
+			res = CanUseItem(pItem, not_loading);
+			if (res != EQUIP_ERR_OK)
+				return res;
+		}
 
         res = CanStoreItem_InSpecificSlot(bag, slot, dest, pProto, count, swap, pItem);
+
         if (res != EQUIP_ERR_OK)
             return res;
 
@@ -13475,6 +13496,11 @@ Item* Player::StoreItem(ItemPosCountVec const& dest, Item* pItem, bool update)
     {
         uint16 pos = itr->pos;
         uint32 count = itr->count;
+
+		uint8 bag = pos >> 8;
+		uint8 slot = pos & 255;
+
+		TC_LOG_DEBUG("entities.player.items", "STORAGE: StoreItem() Trying ot store item in bag %u slot %u", bag, slot);
 
         ++itr;
 
@@ -14397,6 +14423,8 @@ void Player::SplitItem(uint16 src, uint16 dst, uint32 count)
 
 void Player::SwapItem(uint16 src, uint16 dst)
 {
+	TC_LOG_DEBUG("entities.player.items", "STORAGE: SwapItem");
+
     uint8 srcbag = src >> 8;
     uint8 srcslot = src & 255;
 
@@ -14406,10 +14434,24 @@ void Player::SwapItem(uint16 src, uint16 dst)
     Item* pSrcItem = GetItemByPos(srcbag, srcslot);
     Item* pDstItem = GetItemByPos(dstbag, dstslot);
 
-    if (!pSrcItem)
-        return;
+	if (!pSrcItem)
+		return;
 
-    TC_LOG_DEBUG("entities.player.items", "STORAGE: SwapItem bag = %u, slot = %u, item = %u", dstbag, dstslot, pSrcItem->GetEntry());
+	// SkullHack : Check to prevent modifying MonsterBag position in bank
+	if( pSrcItem->GetEntry() != 1100 && dstbag == 255 && dstslot == 73 )
+	{
+		TC_LOG_DEBUG("entities.player.items", "STORAGE: Trying to move something else to bank last slot");
+		SendEquipError(EQUIP_ERR_ITEM_LOCKED, pSrcItem, pDstItem);
+		return;
+	}
+	else if( pSrcItem->GetEntry() == 1100 && ( dstbag != 255 || dstslot != 73 ) )
+	{
+		TC_LOG_DEBUG("entities.player.items", "STORAGE: Trying to remove Monster Bag from bank last slot");
+		SendEquipError(EQUIP_ERR_ITEM_LOCKED, pSrcItem, pDstItem);
+		return;
+	}
+	else
+		TC_LOG_DEBUG("entities.player.items", "STORAGE: SwapItem bag = %u, slot = %u, item = %u", dstbag, dstslot, pSrcItem->GetEntry());
 
     if (!IsAlive())
     {
@@ -14418,7 +14460,6 @@ void Player::SwapItem(uint16 src, uint16 dst)
     }
 
     // SRC checks
-
     if (pSrcItem->m_lootGenerated)                           // prevent swap looting item
     {
         //best error message found for attempting to swap while looting
@@ -14453,7 +14494,6 @@ void Player::SwapItem(uint16 src, uint16 dst)
     }
 
     // DST checks
-
     if (pDstItem)
     {
         if (pDstItem->m_lootGenerated)                       // prevent swap looting item
@@ -14476,13 +14516,13 @@ void Player::SwapItem(uint16 src, uint16 dst)
         }
     }
 
-    // NOW this is or item move (swap with empty), or swap with another item (including bags in bag possitions)
+    // NOW this is for item move (swap with empty), or swap with another item (including bags in bag possitions)
     // or swap empty bag with another empty or not empty bag (with items exchange)
 
     // Move case
     if (!pDstItem)
     {
-        if (IsInventoryPos(dst))
+		if (IsInventoryPos(dst))
         {
             ItemPosCountVec dest;
             InventoryResult msg = CanStoreItem(dstbag, dstslot, dest, pSrcItem, false);
@@ -14501,6 +14541,9 @@ void Player::SwapItem(uint16 src, uint16 dst)
         {
             ItemPosCountVec dest;
             InventoryResult msg = CanBankItem(dstbag, dstslot, dest, pSrcItem, false);
+
+			//TC_LOG_ERROR("entities.player.items", "STORAGE:  %s", msg);
+
             if (msg != EQUIP_ERR_OK)
             {
                 SendEquipError(msg, pSrcItem, NULL);
@@ -14508,7 +14551,12 @@ void Player::SwapItem(uint16 src, uint16 dst)
             }
 
             RemoveItem(srcbag, srcslot, true);
-            BankItem(dest, pSrcItem, true);
+
+			if( pSrcItem->GetEntry() == 1100 )
+				_StoreItem(dst, pSrcItem, 1, false, true);
+			else
+				BankItem(dest, pSrcItem, true);
+
             ItemRemovedQuestCheck(pSrcItem->GetEntry(), pSrcItem->GetCount());
         }
         else if (IsEquipmentPos(dst))
@@ -21522,14 +21570,19 @@ void Player::_SaveInventory(SQLTransaction& trans)
 
         if (item->GetState() != ITEM_REMOVED)
         {
+			//TC_LOG_ERROR("entities.player", "Checking item in bag %u, slot : %u for saving...", item->GetBagSlot(), item->GetSlot());			//TC_LOG_ERROR("entities.player", "Checking item in bag %u, slot : %u for saving...", item->GetBagSlot(), item->GetSlot());
+
             Item* test = GetItemByPos(item->GetBagSlot(), item->GetSlot());
             if (test == NULL)
             {
                 uint32 bagTestGUID = 0;
-                if (Item* test2 = GetItemByPos(INVENTORY_SLOT_BAG_0, item->GetBagSlot()))
+
+                if (Item* test2 = GetItemByPos(INVENTORY_SLOT_BAG_0, item->GetBagSlot() ))
                     bagTestGUID = test2->GetGUIDLow();
-                TC_LOG_ERROR("entities.player", "Player(GUID: %u Name: %s)::_SaveInventory - the bag(%u) and slot(%u) values for the item with guid %u (state %d) are incorrect, the player doesn't have an item at that position!", lowGuid, GetName().c_str(), item->GetBagSlot(), item->GetSlot(), item->GetGUIDLow(), (int32)item->GetState());
-                // according to the test that was just performed nothing should be in this slot, delete
+                
+				TC_LOG_ERROR("entities.player", "Player(GUID: %u Name: %s)::_SaveInventory - the bag(%u) and slot(%u) values for the item with guid %u (state %d) are incorrect, the player doesn't have an item at that position!", lowGuid, GetName().c_str(), item->GetBagSlot(), item->GetSlot(), item->GetGUIDLow(), (int32)item->GetState());
+                
+				// according to the test that was just performed nothing should be in this slot, delete
                 stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHAR_INVENTORY_BY_BAG_SLOT);
                 stmt->setUInt32(0, bagTestGUID);
                 stmt->setUInt8(1, item->GetSlot());

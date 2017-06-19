@@ -4,3 +4,67 @@ function in_array ( e, t )
   end
   return false
 end
+
+function HoldInventory( p_player )
+
+  -- Add new 36 slot bag in last bank pos
+  local t_oldBag = p_player:GetItemByPos( 255, 73 );
+  if( t_oldBag ~= nil ) then
+    for slot = 0, 35 do
+      local old_item = p_player:GetItemByPos( 73, slot );
+      if old_item then
+        p_player:RemoveItem(old_item, 1);
+      end
+    end
+  else
+    local t_bag = p_player:AddItem( 1100 );
+    p_player:MoveItem(t_bag, 255, 73);
+  end
+
+  -- Gear
+  for slot = 0, 18 do
+    local src_item = p_player:GetItemByPos( 255, slot );
+    if src_item then
+      p_player:MoveItem(src_item, 73, slot);
+    end
+  end
+
+  -- Inventory
+  for slot = 23, 38 do
+    local src_item = p_player:GetItemByPos( 255, slot );
+    if src_item then
+      p_player:MoveItem(src_item, 73, slot-4);
+    end
+  end
+
+  -- Save character
+  p_player:SaveToDB();
+end
+
+function RestoreInventory( p_player )
+  -- Gear
+  for slot = 0, 18 do
+    local src_item = p_player:GetItemByPos( 73, slot );
+    if src_item then
+      p_player:MoveItem(src_item, 255, slot);
+    end
+  end
+
+  -- Inventory
+  for slot = 23, 38 do
+    local src_item = p_player:GetItemByPos( 73, slot );
+    -- Move src_item (dst_slot should now be empty)
+    if src_item then
+      p_player:MoveItem(src_item, 255, slot+4);
+    end
+  end
+
+  -- Delete the bag when good
+  local old_bag = p_player:GetItemByPos( 255, 73 );
+  if old_bag then
+    p_player:RemoveItem(old_bag, 1);
+  end
+
+  -- Save character
+  p_player:SaveToDB();
+end

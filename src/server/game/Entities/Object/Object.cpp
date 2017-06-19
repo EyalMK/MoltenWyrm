@@ -122,7 +122,7 @@ Object::~Object()
         TC_LOG_FATAL("misc", "Object::~Object - guid=" UI64FMTD ", typeid=%d, entry=%u deleted but still in world!!", GetGUID(), GetTypeId(), GetEntry());
         if (isType(TYPEMASK_ITEM))
             TC_LOG_FATAL("misc", "Item slot %u", ((Item*)this)->GetSlot());
-        ASSERT(false);
+        //ASSERT(false); // Crash
         RemoveFromWorld();
     }
 
@@ -324,7 +324,7 @@ int32 Object::GetInt32Value(uint16 index) const
 
 uint32 Object::GetUInt32Value(uint16 index) const
 {
-    ASSERT(index < m_valuesCount || PrintIndexError(index, false));
+	ASSERT(index < m_valuesCount || PrintIndexError(index, false));
     return m_uint32Values[index];
 }
 
