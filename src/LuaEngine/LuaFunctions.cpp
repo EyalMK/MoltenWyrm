@@ -742,6 +742,7 @@ ElunaRegister<Player> PlayerMethods[] =
     { "ClearHonorInfo", &LuaPlayer::ClearHonorInfo },
 #endif
 
+	{ "MoveItem", &LuaPlayer::MoveItem },
     { NULL, NULL }
 };
 

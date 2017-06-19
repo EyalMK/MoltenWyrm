@@ -3037,45 +3037,73 @@ namespace LuaPlayer
      * @param uint32 slot : equipment slot to equip the item to The slot can be [EquipmentSlots] or [InventorySlots]
      * @return [Item] equippedItem : item or nil if equipping failed
      */
-    int EquipItem(lua_State* L, Player* player)
-    {
-        uint16 dest = 0;
-        Item* item = Eluna::CHECKOBJ<Item>(L, 2, false);
-        uint32 slot = Eluna::CHECKVAL<uint32>(L, 3);
+	int EquipItem(lua_State* L, Player* player)
+	{
+		uint16 dest = 0;
+		Item* item = Eluna::CHECKOBJ<Item>(L, 2, false);
+		uint32 slot = Eluna::CHECKVAL<uint32>(L, 3);
 
-        if (slot >= INVENTORY_SLOT_BAG_END)
-            return 1;
+		if (slot >= INVENTORY_SLOT_BAG_END)
+			return 1;
 
-        if (!item)
-        {
-            uint32 entry = Eluna::CHECKVAL<uint32>(L, 2);
-            item = Item::CreateItem(entry, 1, player);
-            if (!item)
-                return 1;
+		if (!item)
+		{
+			uint32 entry = Eluna::CHECKVAL<uint32>(L, 2);
+			item = Item::CreateItem(entry, 1, player);
+			if (!item)
+				return 1;
 
-            InventoryResult result = player->CanEquipItem(slot, dest, item, false);
-            if (result != EQUIP_ERR_OK)
-            {
-                delete item;
-                return 1;
-            }
-            player->ItemAddedQuestCheck(entry, 1);
+			InventoryResult result = player->CanEquipItem(slot, dest, item, false);
+			if (result != EQUIP_ERR_OK)
+			{
+				delete item;
+				return 1;
+			}
+			player->ItemAddedQuestCheck(entry, 1);
 #if (!defined(TBC) && !defined(CLASSIC))
-            player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_RECEIVE_EPIC_ITEM, entry, 1);
+			player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_RECEIVE_EPIC_ITEM, entry, 1);
 #endif
-        }
-        else
-        {
-            InventoryResult result = player->CanEquipItem(slot, dest, item, false);
-            if (result != EQUIP_ERR_OK)
-                return 1;
-            player->RemoveItem(item->GetBagSlot(), item->GetSlot(), true);
-        }
+		}
+		else
+		{
+			InventoryResult result = player->CanEquipItem(slot, dest, item, false);
+			if (result != EQUIP_ERR_OK)
+				return 1;
+			player->RemoveItem(item->GetBagSlot(), item->GetSlot(), true);
+		}
 
-        Eluna::Push(L, player->EquipItem(dest, item, true));
-        player->AutoUnequipOffhandIfNeed();
-        return 1;
-    }
+		Eluna::Push(L, player->EquipItem(dest, item, true));
+		player->AutoUnequipOffhandIfNeed();
+		return 1;
+	}
+
+
+	int MoveItem(lua_State* L, Player* player )
+	{
+		Item* src_item = Eluna::CHECKOBJ<Item >(L, 2, true);
+		uint8 dst_bag  = Eluna::CHECKVAL<uint8>(L, 3);
+		uint8 dst_slot = Eluna::CHECKVAL<uint8>(L, 4);
+
+		if (src_item == nullptr)
+		{
+			TC_LOG_ERROR("entities.player.items", "ITEM IS INVALID !");
+			return 1;
+		}
+
+		// SRC Check
+		uint16 src_pos	= src_item->GetPos();
+		uint8  srcbag   = src_pos >> 8;
+		uint8  srcslot  = src_pos & 255;
+
+		// DST Check
+		uint16 dst_pos = ((uint16)dst_bag << 8) | dst_slot;
+		uint8 dstbag   = dst_pos >> 8;
+		uint8 dstslot  = dst_pos & 255;
+
+		player->SwapItem(src_pos, dst_pos);
+
+		return 1;
+	}
     
     /**
      * Returns true if the player can equip the given [Item] or item entry to the given slot, false otherwise.
@@ -3241,9 +3269,6 @@ namespace LuaPlayer
         uint32 itemId = Eluna::CHECKVAL<uint32>(L, 2);
         uint32 itemCount = Eluna::CHECKVAL<uint32>(L, 3, 1);
 
-#ifndef TRINITY
-        Eluna::Push(L, player->StoreNewItemInInventorySlot(itemId, itemCount));
-#else
         uint32 noSpaceForCount = 0;
         ItemPosCountVec dest;
         InventoryResult msg = player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, itemId, itemCount, &noSpaceForCount);
@@ -3257,7 +3282,6 @@ namespace LuaPlayer
         if (item)
             player->SendNewItem(item, itemCount, true, false);
         Eluna::Push(L, item);
-#endif
         return 1;
     }
     
