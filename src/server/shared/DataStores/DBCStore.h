@@ -75,8 +75,7 @@ class DBCStorage
 {
     typedef std::list<char*> StringPoolList;
     public:
-        explicit DBCStorage(char const* f)
-            : fmt(f), nCount(0), fieldCount(0), dataTable(NULL)
+        explicit DBCStorage(char const* f) : fmt(f), nCount(0), fieldCount(0), dataTable(NULL)
         {
             indexTable.asT = nullptr;
         }
@@ -85,15 +84,46 @@ class DBCStorage
 
         T const* LookupEntry(uint32 id) const
         {
+			#ifdef ELUNA
+			if (loaded)
+			{
+				typename std::map<uint32, T const*>::const_iterator it = data.find(id);
+				if (it != data.end())
+					return it->second;
+			}
+			#endif
             return (id >= nCount) ? NULL : indexTable.asT[id];
         }
+
+		#ifdef ELUNA
+			void SetEntry(uint32 id, T* t)
+			{
+				if (!loaded)
+				{
+					for (uint32 i = 0; i < GetNumRows(); ++i)
+					{
+						T const* node = LookupEntry(i);
+						if (!node)
+							continue;
+						data[i] = node;
+					}
+					loaded = true;
+				}
+				data[id] = t;
+			}
+		#endif
 
         T* LookupRow(uint32 id) const
         {
             return (id >= nCount) ? NULL : indexTable.asT[id];
         }
 
-        uint32  GetNumRows() const { return nCount; }
+		#ifdef ELUNA
+			uint32 GetNumRows() const { return loaded ? data.size() : nCount; }
+		#else
+			uint32 GetNumRows() const { return nCount; }
+		#endif
+
         char const* GetFormat() const { return fmt; }
         uint32 GetFieldCount() const { return fieldCount; }
 
@@ -278,6 +308,14 @@ class DBCStorage
 
         void Clear()
         {
+			#ifdef ELUNA
+			if (loaded)
+			{
+				data.clear();
+				loaded = false;
+			}
+			#endif
+
             if (!indexTable.asT)
                 return;
 
@@ -312,6 +350,11 @@ class DBCStorage
 
         DBCStorage(DBCStorage const& right) DELETE_MEMBER;
         DBCStorage& operator=(DBCStorage const& right) DELETE_MEMBER;
+
+		#ifdef ELUNA
+			std::map<uint32, T const*> data;
+			bool loaded;
+		#endif
 };
 
 #endif

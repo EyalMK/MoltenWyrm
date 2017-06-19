@@ -82,6 +82,11 @@
 #include "WorldSession.h"
 #include "MovementStructures.h"
 #include "GameObjectAI.h"
+
+#ifdef ELUNA
+	#include "LuaEngine.h"
+#endif
+
  // npc_bot
 #include "Config.h"
 #include "bothelper.h"
@@ -6428,6 +6433,10 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
     // update visibility
     UpdateObjectVisibility();
 
+	#ifdef ELUNA
+		sEluna->OnResurrect(this);
+	#endif
+
     if (!applySickness)
         return;
 
@@ -9196,6 +9205,9 @@ void Player::UpdateArea(uint32 newArea)
 
 void Player::UpdateZone(uint32 newZone, uint32 newArea)
 {
+	uint32 oldZone = m_zoneUpdateId;
+	uint32 oldArea = m_areaUpdateId;
+
     if (m_zoneUpdateId != newZone)
     {
         sOutdoorPvPMgr->HandlePlayerLeaveZone(this, m_zoneUpdateId);
@@ -9230,7 +9242,7 @@ void Player::UpdateZone(uint32 newZone, uint32 newArea)
             WeatherMgr::SendFineWeatherUpdateToPlayer(this);
     }
 
-    sScriptMgr->OnPlayerUpdateZone(this, newZone, newArea);
+    sScriptMgr->OnPlayerUpdateZone(this, newZone, newArea, oldZone, oldArea);
 
     // in PvP, any not controlled zone (except zone->team == 6, default case)
     // in PvE, only opposition team capital
@@ -13281,6 +13293,12 @@ InventoryResult Player::CanUseItem(Item* pItem, bool not_loading) const
             if (pProto->RequiredReputationFaction && uint32(GetReputationRank(pProto->RequiredReputationFaction)) < pProto->RequiredReputationRank)
                 return EQUIP_ERR_CANT_EQUIP_REPUTATION;
 
+			#ifdef ELUNA
+				InventoryResult eres = sEluna->OnCanUseItem(this, pProto->ItemId);
+				if (eres != EQUIP_ERR_OK)
+					return eres;
+			#endif
+
             return EQUIP_ERR_OK;
         }
     }
@@ -13688,12 +13706,20 @@ Item* Player::EquipItem(uint16 pos, Item* pItem, bool update)
 
         ApplyEquipCooldown(pItem2);
 
+		#ifdef ELUNA
+			sEluna->OnEquip(this, pItem2, bag, slot);
+		#endif
+
         return pItem2;
     }
 
     // only for full equip instead adding to stack
     UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM, pItem->GetEntry());
     UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_EPIC_ITEM, pItem->GetEntry(), slot);
+
+	#ifdef ELUNA
+		sEluna->OnEquip(this, pItem, bag, slot);
+	#endif
 
     return pItem;
 }
@@ -13716,6 +13742,10 @@ void Player::QuickEquipItem(uint16 pos, Item* pItem)
 
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM, pItem->GetEntry());
         UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_EPIC_ITEM, pItem->GetEntry(), slot);
+
+		#ifdef ELUNA
+			sEluna->OnEquip(this, pItem, (pos >> 8), slot);
+		#endif
     }
 }
 
@@ -27133,6 +27163,10 @@ void Player::StoreLootItem(uint8 lootSlot, Loot* loot)
         if (loot->containerID > 0)
             loot->DeleteLootItemFromContainerItemDB(item->itemid);
 
+		#ifdef ELUNA
+			sEluna->OnLootItem(this, newitem, item->count, this->GetLootGUID());
+		#endif
+
     }
     else
         SendEquipError(msg, NULL, NULL, item->itemid);
@@ -27630,7 +27664,12 @@ bool Player::LearnTalent(uint32 talentId, uint32 talentRank)
 
     // update free talent points
     SetFreeTalentPoints(CurTalentPoints - (talentRank - curtalent_maxrank + 1));
-    return true;
+
+	#ifdef ELUNA
+		sEluna->OnLearnTalents(this, talentId, talentRank, spellid);
+	#endif
+
+	return true;
 }
 
 void Player::LearnPetTalent(uint64 petGuid, uint32 talentId, uint32 talentRank)

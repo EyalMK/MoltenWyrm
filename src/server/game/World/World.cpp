@@ -84,6 +84,10 @@
 #include "BattlefieldMgr.h"
 #include "TransportMgr.h"
 
+#ifdef ELUNA
+#include "LuaEngine.h"
+#endif
+
 ACE_Atomic_Op<ACE_Thread_Mutex, bool> World::m_stopEvent = false;
 uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
 ACE_Atomic_Op<ACE_Thread_Mutex, uint32> World::m_worldLoopCounter = 0;
@@ -1360,6 +1364,12 @@ void World::SetInitialWorldSettings()
         exit(1);
     }
 
+#ifdef ELUNA
+	///- Initialize Lua Engine
+	TC_LOG_INFO("server.loading", "Initialize Eluna Lua Engine...");
+	Eluna::Initialize();
+#endif
+
     ///- Initialize pool manager
     sPoolMgr->Initialize();
 
@@ -1922,6 +1932,13 @@ void World::SetInitialWorldSettings()
 
     TC_LOG_INFO("server.loading", "Loading missing KeyChains...");
     sObjectMgr->LoadMissingKeyChains();
+
+#ifdef ELUNA
+	///- Run eluna scripts.
+	// in multithread foreach: run scripts
+	sEluna->RunScripts();
+	sEluna->OnConfigLoad(false); // Must be done after Eluna is initialized and scripts have run.
+#endif
 
     uint32 startupDuration = GetMSTimeDiffToNow(startupBegin);
 

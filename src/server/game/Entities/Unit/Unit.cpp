@@ -62,6 +62,12 @@
 #include "WorldPacket.h"
 #include "MovementStructures.h"
 #include "WorldSession.h"
+
+#ifdef ELUNA
+	#include "LuaEngine.h"
+	#include "ElunaEventMgr.h"
+#endif
+
 #include <cmath>
 #include <math.h>
 
@@ -315,6 +321,10 @@ Unit::~Unit()
 
 void Unit::Update(uint32 p_time)
 {
+	#ifdef ELUNA
+		elunaEvents->Update(p_time);
+	#endif
+
     // WARNING! Order of execution here is important, do not change.
     // Spells must be processed with event system BEFORE they go to _UpdateSpells.
     // Or else we may have some SPELL_STATE_FINISHED spells stalled in pointers, that is bad.
@@ -12046,6 +12056,11 @@ void Unit::SetInCombatState(bool PvP, Unit* enemy)
         (*itr)->SetInCombatState(PvP, enemy);
         (*itr)->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT);
     }
+
+	#ifdef ELUNA
+		if (Player* player = this->ToPlayer())
+			sEluna->OnPlayerEnterCombat(player, enemy);
+	#endif
 }
 
 void Unit::ClearInCombat()
@@ -12078,6 +12093,11 @@ void Unit::ClearInCombat()
 
     RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PET_IN_COMBAT);
     RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_LEAVE_COMBAT);
+
+#ifdef ELUNA
+	if (Player* player = this->ToPlayer())
+		sEluna->OnPlayerLeaveCombat(player);
+#endif
 }
 
 bool Unit::isTargetableForAttack(bool checkFakeDeath) const

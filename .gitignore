@@ -1,4 +1,7 @@
 
+.vs*/
+.idea*/
+.obj*/
 bin*/
 build*/
 .directory
@@ -17,3 +20,5 @@ CMakeLists.txt.user
 *.BACKUP.*
 *.BASE.*
 *.LOCAL.*
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json

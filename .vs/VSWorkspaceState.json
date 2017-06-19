@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\LuaEngine",
+    "\\src\\server\\scripts\\Commands"
+  ],
+  "SelectedNode": "\\src\\LuaEngine\\BattleGroundHooks.cpp",
+  "PreviewInSolutionExplorer": false
+}

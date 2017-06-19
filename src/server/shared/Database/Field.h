@@ -252,6 +252,22 @@ class Field
             return data.value == nullptr;
         }
 
+		bool IsType(enum_field_types type) const
+		{
+			return data.type == type;
+		}
+
+		bool IsNumeric() const
+		{
+			return (data.type == MYSQL_TYPE_TINY ||
+				data.type == MYSQL_TYPE_SHORT ||
+				data.type == MYSQL_TYPE_INT24 ||
+				data.type == MYSQL_TYPE_LONG ||
+				data.type == MYSQL_TYPE_FLOAT ||
+				data.type == MYSQL_TYPE_DOUBLE ||
+				data.type == MYSQL_TYPE_LONGLONG);
+		}
+
     protected:
         Field();
         ~Field();
@@ -331,22 +347,6 @@ class Field
                     TC_LOG_WARN("sql.sql", "SQL::SizeForType(): invalid field type %u", uint32(field->type));
                     return 0;
             }
-        }
-
-        bool IsType(enum_field_types type) const
-        {
-            return data.type == type;
-        }
-
-        bool IsNumeric() const
-        {
-            return (data.type == MYSQL_TYPE_TINY ||
-                    data.type == MYSQL_TYPE_SHORT ||
-                    data.type == MYSQL_TYPE_INT24 ||
-                    data.type == MYSQL_TYPE_LONG ||
-                    data.type == MYSQL_TYPE_FLOAT ||
-                    data.type == MYSQL_TYPE_DOUBLE ||
-                    data.type == MYSQL_TYPE_LONGLONG );
         }
 
     private:

@@ -1,0 +1,19 @@
+--
+-- Created by IntelliJ IDEA.
+-- User: Skullbot
+-- Date: 18/06/2017
+-- Time: 00:49
+-- To change this template use File | Settings | File Templates.
+--
+
+-- Area flags
+AREA_WILDERNESS   = 0;
+AREA_SAFEZONE     = 1;
+AREA_SANCTUARY    = 2;
+AREA_BATTLEGROUND = 3;
+AREA_ARENA        = 4;
+
+-- List
+LIST_SAFEZONES = {
+  5402, -- Warden's Veil (Tol Barad)
+};
