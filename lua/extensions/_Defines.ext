@@ -40,6 +40,10 @@ INVENTORY_SLOT_BAG_3 = 21;
 INVENTORY_SLOT_BAG_4 = 22;
 INVENTORY_SLOT_BAG_5 = 23;
 
+-- Gossip
+GOSSIP_EVENT_ON_HELLO  = 1;    -- (event, player, object)                               - Object is the Creature/GameObject/Item. For item gossip can return false to stop spell *casting.
+GOSSIP_EVENT_ON_SELECT = 2;    -- (event, player, object, sender, intid, code, menu_id) - Object is the Creature/GameObject/Item/Player, menu_id is *only for player gossip
+
 -- Player Events
 PLAYER_EVENT_ON_CHARACTER_CREATE        = 1;  -- (event, player)
 PLAYER_EVENT_ON_CHARACTER_DELETE        = 2;  -- (event, guid)

@@ -5,53 +5,51 @@
 --  # Worgen Female (52463)
 ---------------------------------------------------
 -- Triggers :
---  # CREATURE_EVENT_ON_SPAWN
---  # CREATURE_EVENT_ON_ENTER_COMBAT
---  # CREATURE_EVENT_ON_LEAVE_COMBAT
---  # CREATURE_EVENT_ON_DIED
+--  # GOSSIP_EVENT_ON_HELLO
+--  # GOSSIP_EVENT_ON_SELECT
 ---------------------------------------------------
 -- Author : Skullbot
 ---------------------------------------------------
 
 local TestMonster = {};
-local Entry       = 52463; -- Worgen Female
+local Entry       = 295; -- Aubergiste Farley (because has gossip)
 
-local m_target;
-
-function TestMonster.OnSpawn( _, p_creature )
-  local t_name = "Dynamic Name #"..math.random( 1, 100 );
-  p_creature:SendUnitYell( "I'M BACK !", 0 );
-  p_creature:SetFaction( 16 );
+function TestMonster.GossipHello( _, p_player, unit )
+  p_player:GossipMenuAddItem( 0, "I want to go to the battleground !", 0, 1 ) -- icon, text, sender, intid
+  p_player:GossipMenuAddItem( 0, "I want to get my items back !",      0, 2 ) -- icon, text, sender, intid
+  p_player:GossipMenuAddItem( 0, "Give me some gear !",                0, 3 ) -- icon, text, sender, intid
+  p_player:GossipSendMenu(1, unit)
 end
 
-function TestMonster.OnEnterCombat( _, p_creature, p_target )
-  m_target = p_target;
-  p_creature:SendChatMessageToPlayer( 0, 0, "Aggro", m_target );
-  p_creature:RegisterEvent( TestMonster.Poison, math.random( 3000, 5000 ), 0 );
-  p_creature:RegisterEvent( TestMonster.Sinister_Strike, 8000, 0 );
-end
+function TestMonster.GossipSelect( _, p_player, _, _, p_choice )
 
-function TestMonster.Poison( _, _, _, p_creature )
-  if math.random( 1, 100 ) <= 75 then
-    p_creature:CastSpell( p_creature:GetVictim(), 744 );
-    p_creature:SendChatMessageToPlayer( 0, 0, "Poison", m_target, true );
+  if p_choice == 1 then
+    HoldInventory( p_player );
+    p_player:GossipComplete();
+    p_player:Teleport( 169, -4434, -3541, 400, 0 );
+    p_player:CastSpell( p_player, 91835, true );
   end
-end
 
-function TestMonster.Sinister_Strike( _, _, _, p_creature )
-  if math.random( 1, 100 ) <= 85 then
-    p_creature:CastSpell( p_creature:GetVictim(), 14873 );
-    p_creature:SendChatMessageToPlayer( 0, 0, "Sinister Strike", m_target, true );
+  if p_choice == 2 then
+    RestoreInventory( p_player );
+    p_player:GossipComplete();
   end
+
+  if p_choice == 3 then
+    p_player:AddItem(22416);
+    p_player:AddItem(22417);
+    p_player:AddItem(22418);
+    p_player:AddItem(22419);
+    p_player:AddItem(22420);
+    p_player:AddItem(22421);
+    p_player:AddItem(22422);
+    p_player:AddItem(22423);
+    p_player:AddItem(49623);
+    p_player:GossipComplete();
+    p_player:SaveToDB();
+  end
+
 end
 
-function TestMonster.Reset( _, p_creature)
-  p_creature:SendChatMessageToPlayer( 0, 0, "Reset", m_target );
-  p_creature:RemoveEvents()
-  m_target = nil;
-end
-
-RegisterCreatureEvent( Entry, CREATURE_EVENT_ON_SPAWN,        TestMonster.OnSpawn )
-RegisterCreatureEvent( Entry, CREATURE_EVENT_ON_ENTER_COMBAT, TestMonster.OnEnterCombat )
-RegisterCreatureEvent( Entry, CREATURE_EVENT_ON_LEAVE_COMBAT, TestMonster.Reset )
-RegisterCreatureEvent( Entry, CREATURE_EVENT_ON_DIED,         TestMonster.Reset )
+RegisterCreatureGossipEvent(Entry, GOSSIP_EVENT_ON_HELLO, TestMonster.GossipHello)
+RegisterCreatureGossipEvent(Entry, GOSSIP_EVENT_ON_SELECT, TestMonster.GossipSelect)
