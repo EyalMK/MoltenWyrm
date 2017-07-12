@@ -878,21 +878,25 @@ void WorldSession::SaveTutorialsData(SQLTransaction &trans)
     m_TutorialsChanged = false;
 }
 
-void WorldSession::ReadAddonsInfo(WorldPacket &data)
+//void WorldSession::ReadAddonsInfo(WorldPacket &data)
+bool WorldSession::ReadAddonsInfo(WorldPacket &data)
 {
     if (data.rpos() + 4 > data.size())
-        return;
+        return false;
+
+	// Skull : Check mandatory addons
+	bool t_mandatoryLoaded = false;
 
     uint32 size;
     data >> size;
 
     if (!size)
-        return;
+        return false;
 
     if (size > 0xFFFFF)
     {
         TC_LOG_ERROR("misc", "WorldSession::ReadAddonsInfo addon info too big, size %u", size);
-        return;
+        return false;
     }
 
     uLongf uSize = size;
@@ -915,13 +919,13 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
 
             // check next addon data format correctness
             if (addonInfo.rpos() + 1 > addonInfo.size())
-                return;
+                return false;
 
             addonInfo >> addonName;
 
             addonInfo >> enabled >> crc >> unk1;
 
-            TC_LOG_INFO("misc", "ADDON: Name: %s, Enabled: 0x%x, CRC: 0x%x, Unknown2: 0x%x", addonName.c_str(), enabled, crc, unk1);
+            TC_LOG_DEBUG("network", "ADDON: Name: %s, Enabled: 0x%x, CRC: 0x%x, Unknown2: 0x%x", addonName.c_str(), enabled, crc, unk1);
 
             AddonInfo addon(addonName, enabled, crc, 2, true);
 
@@ -936,9 +940,15 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
             else
             {
                 AddonMgr::SaveAddon(addon);
-
                 TC_LOG_INFO("misc", "ADDON: %s (0x%x) was not known, saving...", addon.Name.c_str(), addon.CRC);
             }
+
+			// Skull : Checking mandatory addons, version and enable state
+			if( addonName == "MoltenWyrm_Interface" )
+			{
+				TC_LOG_ERROR("network", "ADDON: Mandatory Addon %s FOUND", addonName.c_str() );
+				t_mandatoryLoaded = true;
+			}
 
             /// @todo Find out when to not use CRC/pubkey, and other possible states.
             m_addonsList.push_back(addon);
@@ -950,6 +960,8 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
     }
     else
         TC_LOG_ERROR("misc", "Addon packet uncompress error!");
+
+	return t_mandatoryLoaded;
 }
 
 void WorldSession::SendAddonsInfo()

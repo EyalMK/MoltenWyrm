@@ -1030,7 +1030,17 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
 
     m_Session->LoadGlobalAccountData();
     m_Session->LoadTutorialsData();
-    m_Session->ReadAddonsInfo(addonsData);
+
+	// Skull : Here we also check manbdatory addons
+	bool t_addonsLoaded = m_Session->ReadAddonsInfo(addonsData);
+	if( !t_addonsLoaded )
+	{
+		SendAuthResponseError(AUTH_UNAVAILABLE);
+		TC_LOG_ERROR("network", "WorldSocket::HandleAuthSession: User tries to login without mandatory addons activated/installed.");
+		m_Session->KickPlayer();
+		return -1;
+	}
+
     m_Session->LoadPermissions();
 
     // Initialize Warden system only if it is enabled by config
