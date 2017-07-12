@@ -10,7 +10,7 @@
 
 # Set projectname (must be done AFTER setting configurationtypes)
 
-project(ArkCORE4-NG)
+project(MoltenWyrm-Core)
 
 # CMake policies (can not be handled elsewhere)
 cmake_minimum_required(VERSION 2.8)
