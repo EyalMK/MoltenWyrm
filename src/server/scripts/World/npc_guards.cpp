@@ -35,6 +35,7 @@ EndContentData */
 #include "GuardAI.h"
 #include "Player.h"
 #include "SpellInfo.h"
+#include "GameEventMgr.h"
 
 enum GuardGeneric
 {

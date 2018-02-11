@@ -45,7 +45,6 @@ IDI_APPICON             ICON                    "worldserver.ico"
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
 #ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#pragma code_page(1252)
 #endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////

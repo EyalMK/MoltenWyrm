@@ -2691,7 +2691,7 @@ void Player::RefreshBot(uint32 diff)
                     //m_bot->Relocate(this);
                     ////Creature::AddToWorld(): Skip AIM_Initialize();
                     //if (m_bot->GetZoneScript())
-                    //    m_bot->GetZoneScript()->OnCreatureCreate(m_bot);   
+                    //    m_bot->GetZoneScript()->OnCreatureCreate(m_bot);
                     //sObjectAccessor->AddObject(m_bot);
                     //m_bot->ToUnit()->AddToWorld();
                     //m_bot->SetOwnerGUID(GetGUID());
@@ -3315,7 +3315,7 @@ void Player::CreateNPCBot(uint8 bot_class)
     stmt->setString(index++, classStr.str());
     stmt->setUInt8(index++, bot_class);
 
-    //maybe we should remove this check? ;Ü
+    //maybe we should remove this check? ;ï¿½
     switch (getRace())
     {
     case RACE_NONE:
@@ -6243,7 +6243,7 @@ void Player::DeleteFromDB(uint64 playerguid, uint32 accountId, bool updateRealmC
         stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_NPCBOTS);
         stmt->setUInt32(0, guid);
         trans->Append(stmt);
-        //CharacterDatabase.PExecute("DELETE FROM `character_npcbot` WHERE `owner` = '%u'", guid);           
+        //CharacterDatabase.PExecute("DELETE FROM `character_npcbot` WHERE `owner` = '%u'", guid);
         //end npc_bot
 
         CharacterDatabase.CommitTransaction(trans);
@@ -8271,7 +8271,7 @@ void Player::RewardReputation(Unit* victim, float rate)
                         Rep = sObjectMgr->GetReputationOnKilEntry(49667);
                 }
 
-                // Dungeon & Raid Bosses 
+                // Dungeon & Raid Bosses
                 if (victim->getLevel() >= 86 && victim->GetMaxHealth() >= 2000000)
                 {
                     if (!map->IsHeroic())
@@ -18934,7 +18934,7 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
     //"totalKills, todayKills, yesterdayKills, chosenTitle, watchedFaction, drunk, "
     // 46      47      48      49      50      51      52           53         54          55             56
     //"health, power1, power2, power3, power4, power5, instance_id, speccount, activespec, exploredZones, equipmentCache, "
-    // 57           58          59                  60              61          62  
+    // 57           58          59                  60              61          62
     //"knownTitles, actionBars, grantableLevels, ratedBGWins, ratedBGLoose, ratedBGRating FROM characters WHERE guid = '%u'", guid);
     PreparedQueryResult result = holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_FROM);
     if (!result)
@@ -21579,7 +21579,7 @@ void Player::_SaveInventory(SQLTransaction& trans)
                     bagTestGUID = test2->GetGUIDLow();
                 
 				TC_LOG_ERROR("entities.player", "Player(GUID: %u Name: %s)::_SaveInventory - the bag(%u) and slot(%u) values for the item with guid %u (state %d) are incorrect, the player doesn't have an item at that position!", lowGuid, GetName().c_str(), item->GetBagSlot(), item->GetSlot(), item->GetGUIDLow(), (int32)item->GetState());
-                
+    
 				// according to the test that was just performed nothing should be in this slot, delete
                 stmt = CharacterDatabase.GetPreparedStatement(CHAR_DEL_CHAR_INVENTORY_BY_BAG_SLOT);
                 stmt->setUInt32(0, bagTestGUID);

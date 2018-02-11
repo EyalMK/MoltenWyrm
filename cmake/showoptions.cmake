@@ -1,8 +1,12 @@
 # output generic information about the core and buildtype chosen
 message("")
-message("* ArkCore revision       : ${rev_hash} ${rev_date} (${rev_branch} branch)")
+message("* MoltenWyrm revision       : ${rev_hash} ${rev_date} (${rev_branch} branch)")
 if( UNIX )
-  message("* ArkCore buildtype      : ${CMAKE_BUILD_TYPE}")
+  message("* MoltenWyrm buildtype      : ${CMAKE_BUILD_TYPE}")
+endif()
+if( MSVC )
+  message("* Compiler       : Microsoft Visual Studio")
+  message("* Compiler flags : ${CMAKE_CXX_FLAGS}")
 endif()
 message("")
 
@@ -31,10 +35,10 @@ else()
 endif()
 
 if( ELUNA )
-  message("* Build Eluna LuaEngine   : Yes (default)")
+  message("* Build Eluna LuaEngine  : Yes (default)")
   add_definitions(-DELUNA)
 else()
-  message("* Build Eluna LuaEngine   : No")
+  message("* Build Eluna LuaEngine  : No")
 endif()
 
 if( TOOLS )

@@ -29,6 +29,7 @@
 #include <vector>
 #include <list>
 #include <ace/INET_Addr.h>
+#include <set>
 
 // Searcher for map of structs
 template<typename T, class S> struct Finder

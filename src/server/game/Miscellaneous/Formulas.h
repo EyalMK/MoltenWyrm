@@ -24,6 +24,7 @@
 #include "SharedDefines.h"
 #include "ScriptMgr.h"
 #include "Player.h"
+#include "Creature.h"
 
 namespace Trinity
 {

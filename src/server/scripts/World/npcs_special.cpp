@@ -57,6 +57,7 @@ EndContentData */
 #include "CellImpl.h"
 #include "SpellAuras.h"
 #include "Pet.h"
+#include "CombatAI.h"
 
 /*########
 # npc_air_force_bots
@@ -2421,8 +2422,8 @@ public:
 
 enum eFlameOrb
 {
-    SPELL_FLAME_ORB_DAMAGE   = 82739, 
-    FLAME_ORB_DISTANCE       = 120, 
+    SPELL_FLAME_ORB_DAMAGE   = 82739,
+    FLAME_ORB_DISTANCE       = 120,
     SPELL_FLAME_ORB_BOOM     = 83619
 };
 
@@ -2601,7 +2602,7 @@ public:
 
     struct npc_hand_of_guldanAI: public ScriptedAI
     {
-        npc_hand_of_guldanAI(Creature* creature) : ScriptedAI(creature) 
+        npc_hand_of_guldanAI(Creature* creature) : ScriptedAI(creature)
         {
             me->SetReactState(REACT_PASSIVE);
             me->AttackStop();
@@ -2644,7 +2645,7 @@ public:
                 me->AddAura(86000, me);
                 FirstCasts = false;
             }
-                    
+            
             if (ForebodingTimerStun <= diff && Foreboding && Stun)
             {
                 Stun = false;
@@ -2952,10 +2953,10 @@ public:
         void CalculateAmountAttackPower(AuraEffect const* /*aurEff*/, int32& amount, bool& /*canBeRecalculated*/)
         {
             if (Player* owner = me->GetOwner()->ToPlayer())
-            { 
+            {
                 float apAmount = owner->GetTotalAttackPowerValue(RANGED_ATTACK);
                 apAmount = owner->GetTotalAuraModifier(SPELL_AURA_MOD_ATTACK_POWER);
-                apAmount = (apAmount / 100) * 42.5f; //Get 1 percent * 42.5f  
+                apAmount = (apAmount / 100) * 42.5f; //Get 1 percent * 42.5f
                 amount += int32(apAmount);
             }
         }
@@ -3226,23 +3227,23 @@ public:
         {
             m_player = nullptr;
             m_events.ScheduleEvent(EVENT_GO_INVISIBLE, 6000);
-            m_events.ScheduleEvent(EVENT_CHECK_OWNER, 500);            
+            m_events.ScheduleEvent(EVENT_CHECK_OWNER, 500);
         }
 
-        void IsSummonedBy(Unit* summoner) 
-        { 
+        void IsSummonedBy(Unit* summoner)
+        {
             m_player = summoner->ToPlayer();
         }
 
         void SpellHit(Unit* caster, SpellInfo const* spell) override
-        { 
+        {
             printf("SpellHit  %u \n", spell->Id);
           
         }
 
         void JustDied(Unit* /*killer*/)
         {
-         
+        
         }
 
         void UpdateAI(uint32 diff) override
@@ -3288,7 +3289,7 @@ public:
 
     enum eNpc
     {
-       
+    
     };
 
     struct npc_mushroom_43497AI : public ScriptedAI

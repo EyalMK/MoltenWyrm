@@ -19,6 +19,7 @@
  
 #include "Pet.h"
 #include "Player.h"
+#include "SpellInfo.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "ScriptedEscortAI.h"
@@ -66,7 +67,7 @@ public:
             damage = 0;
             me->SetHealth(me->GetMaxHealth());
             me->AddThreat(attacker, float(damage));
-            m_combatTime[attacker->GetGUID()] = time(NULL);            
+            m_combatTime[attacker->GetGUID()] = time(NULL);
         }
 
         void SpellHit(Unit * Hitter, SpellInfo const* spell) override
@@ -85,12 +86,12 @@ public:
                 }
                 case CLASS_PALADIN:
                 {
-                    if (player->HasAura(105361) && spell->Id == 20271) // wowhead: this is the correct spell/aura	: Seal of Command	
+                    if (player->HasAura(105361) && spell->Id == 20271) // wowhead: this is the correct spell/aura	: Seal of Command
                     {
                         player->KilledMonsterCredit(44420);
                         player->KilledMonsterCredit(44175);
                     }
-                    if (player->HasAura(20154) && spell->Id == 20271)	// wowhead: this is a wrong lv 42 spell/aura, but used now in core.. : Seal of Righteousness				
+                    if (player->HasAura(20154) && spell->Id == 20271)	// wowhead: this is a wrong lv 42 spell/aura, but used now in core.. : Seal of Righteousness
                     {
                         player->KilledMonsterCredit(44420);
                         player->KilledMonsterCredit(44175);
@@ -127,11 +128,11 @@ public:
                     {
                         if (Hitter->getRace() == RACE_TROLL)
                         {
-                            if (spell->Id == 122) 
+                            if (spell->Id == 122)
                                 player->KilledMonsterCredit(44175);
-                            if (spell->Id == 133) 
+                            if (spell->Id == 133)
                                 player->KilledMonsterCredit(44175);
-                            if (spell->Id == 2136) 
+                            if (spell->Id == 2136)
                                 player->KilledMonsterCredit(44175);
                         }
                         if (spell->Id == 7268 && !m_spell_is_on_work)

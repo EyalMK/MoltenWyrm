@@ -34,10 +34,10 @@ if( WIN32 )
     ${sources_windows_Debugging}
   )
   if ( MSVC )
-    set(worldserver_SRCS
-      ${worldserver_SRCS}
-      worldserver.rc
-    )
+#    set(worldserver_SRCS
+#      ${worldserver_SRCS}
+#      worldserver.rc
+#    )
   endif()
 endif()
 
@@ -197,12 +197,12 @@ if( WIN32 )
   endif()
 endif()
 
-if( UNIX )
-  install(TARGETS worldserver DESTINATION bin)
-  install(FILES worldserver.conf.dist DESTINATION ${CONF_DIR})
-elseif( WIN32 )
+if( WIN32 )
   install(TARGETS worldserver DESTINATION "${CMAKE_INSTALL_PREFIX}")
   install(FILES worldserver.conf.dist DESTINATION "${CMAKE_INSTALL_PREFIX}")
+elseif( UNIX )
+  install(TARGETS worldserver DESTINATION bin)
+  install(FILES worldserver.conf.dist DESTINATION ${CONF_DIR})
 endif()
 
 # Generate precompiled header

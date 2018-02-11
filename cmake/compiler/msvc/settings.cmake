@@ -64,3 +64,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm500" CACHE STRING "" FORCE)
 # 'function' : member function does not override any base class virtual member function
 # 'virtual_function' : no override available for virtual member function from base 'class'; function is hidden
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /we4263 /we4264")
+
+# Ignore all warnings
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /w")

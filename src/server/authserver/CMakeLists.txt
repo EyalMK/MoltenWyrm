@@ -34,10 +34,10 @@ if( WIN32 )
     ${sources_windows_Debugging}
   )
   if ( MSVC )
-    set(authserver_SRCS
-      ${authserver_SRCS}
-      authserver.rc
-    )
+#    set(authserver_SRCS
+#      ${authserver_SRCS}
+#      authserver.rc
+#    )
   endif ()
 endif()
 
@@ -96,12 +96,12 @@ if( WIN32 )
   endif()
 endif()
 
-if( UNIX )
-  install(TARGETS authserver DESTINATION bin)
-  install(FILES  authserver.conf.dist DESTINATION ${CONF_DIR})
-elseif( WIN32 )
+if( WIN32 )
   install(TARGETS authserver DESTINATION "${CMAKE_INSTALL_PREFIX}")
   install(FILES authserver.conf.dist DESTINATION "${CMAKE_INSTALL_PREFIX}")
+elseif( UNIX )
+  install(TARGETS authserver DESTINATION bin)
+  install(FILES  authserver.conf.dist DESTINATION ${CONF_DIR})
 endif()
 
 # Generate precompiled header

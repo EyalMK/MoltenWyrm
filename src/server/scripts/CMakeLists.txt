@@ -17,37 +17,21 @@ endif ()
 
 message(STATUS "SCRIPT PREPARATIONS")
 include(Spells/CMakeLists.txt)
-
 include(Commands/CMakeLists.txt)
-
 include(Examples/CMakeLists.txt)
+include(Custom/CMakeLists.txt)
+include(World/CMakeLists.txt)
 
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
   
   # TeleNPC2
-  Custom/npc_teleport.cpp
   ../game/AI/ScriptedAI/sc_npc_teleport.cpp
   ../game/AI/ScriptedAI/sc_npc_teleport.h
-
   ../game/AI/ScriptedAI/ScriptedEscortAI.cpp
   ../game/AI/ScriptedAI/ScriptedCreature.cpp
   ../game/AI/ScriptedAI/ScriptedFollowerAI.cpp
 )
-
-if(SCRIPTS)
-  include(Custom/CMakeLists.txt)
-  include(World/CMakeLists.txt)
-  include(OutdoorPvP/CMakeLists.txt)
-  include(EasternKingdoms/CMakeLists.txt)
-  include(Kalimdor/CMakeLists.txt)
-  include(Outland/CMakeLists.txt)
-  include(Northrend/CMakeLists.txt)
-  include(Maelstrom/CMakeLists.txt)
-  include(Events/CMakeLists.txt)
-  include(Pet/CMakeLists.txt)
-endif()
-
 message(STATUS "SCRIPT PREPARATION COMPLETE")
 message("")
 
@@ -85,7 +69,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/server/game/AI/ScriptedAI
   ${CMAKE_SOURCE_DIR}/src/server/game/AI/SmartScripts
   ${CMAKE_SOURCE_DIR}/src/server/game/AuctionHouse
-  ${CMAKE_SOURCE_DIR}/src/server/game/AuctionHouseBot  
+  ${CMAKE_SOURCE_DIR}/src/server/game/AuctionHouseBot
   ${CMAKE_SOURCE_DIR}/src/server/game/Battlefield
   ${CMAKE_SOURCE_DIR}/src/server/game/Battlefield/Zones
   ${CMAKE_SOURCE_DIR}/src/server/game/Battlegrounds

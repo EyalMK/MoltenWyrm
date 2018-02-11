@@ -59,9 +59,7 @@ public:
         void UpdateAI(uint32 diff) override
         {
             //Always decrease our global cooldown first
-            if (GlobalCooldown > diff)
-                GlobalCooldown -= diff;
-            else GlobalCooldown = 0;
+            GlobalCooldown > diff ? ( GlobalCooldown -= diff ) : ( GlobalCooldown = 0 );
 
             //Buff timer (only buff when we are alive and not in combat
             if (!me->IsInCombat() && me->IsAlive())
@@ -104,8 +102,7 @@ public:
                         info = SelectSpell(me, 0, 0, SELECT_TARGET_ANY_FRIEND, 0, 0, 0, 0, SELECT_EFFECT_HEALING);
 
                     //No healing spell available, select a hostile spell
-                    if (info) Healing = true;
-                    else info = SelectSpell(me->GetVictim(), 0, 0, SELECT_TARGET_ANY_ENEMY, 0, 0, 0, 0, SELECT_EFFECT_DONTCARE);
+                    info ? ( Healing = true ) : ( info = SelectSpell(me->GetVictim(), 0, 0, SELECT_TARGET_ANY_ENEMY, 0, 0, 0, 0, SELECT_EFFECT_DONTCARE) );
 
                     //50% chance if elite or higher, 20% chance if not, to replace our white hit with a spell
                     if (info && (rand() % (me->GetCreatureTemplate()->rank > 1 ? 2 : 5) == 0) && !GlobalCooldown)
