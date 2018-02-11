@@ -170,18 +170,6 @@ void AddSC_npc_trainings_dummy();
 
 // battlegrounds
 
-
-// outdoor pvp
-void AddSC_outdoorpvp_hp();
-
-void AddSC_outdoorpvp_na();
-
-void AddSC_outdoorpvp_si();
-
-void AddSC_outdoorpvp_tf();
-
-void AddSC_outdoorpvp_zm();
-
 // player
 void AddSC_chat_log();
 
