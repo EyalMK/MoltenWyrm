@@ -2,7 +2,7 @@
 -- Test.lua
 ---------------------------------------------------
 -- Creature :
---  # Worgen Female (52463)
+--  # Innkeeper Farley (295)
 ---------------------------------------------------
 -- Triggers :
 --  # GOSSIP_EVENT_ON_HELLO
@@ -12,7 +12,7 @@
 ---------------------------------------------------
 
 local TestMonster = {};
-local Entry       = 295; -- Aubergiste Farley (because has gossip)
+local Entry       = 295; -- NPC has gossip flag
 
 function TestMonster.GossipHello( _, p_player, unit )
   p_player:GossipMenuAddItem( 0, "I want to go to the battleground !", 0, 1 ) -- icon, text, sender, intid

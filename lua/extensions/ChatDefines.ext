@@ -13,8 +13,10 @@ COLOR_SANCTUARY     = "|cff4FDAF8";
 COLOR_WILDERNESS    = "|cff9365BF";
 COLOR_KILLER_NPC    = "|cffF87000";
 COLOR_KILLER_PLAYER = "|cffF83227";
+COLOR_GAMEMASTER    = "|cff699AFE";
 COLOR_GREY          = "|cff707070";
 COLOR_RED           = "|cffFF0000";
+COLOR_RESET         = "|r";
 
 -- Prefix (line start)
 PRE_BULLET  = " "..COLOR_DEFAULT..ICON_BULLET.." ";

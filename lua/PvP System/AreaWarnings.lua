@@ -39,18 +39,21 @@ local function OnPlayerZoneChange( _, p_player, p_newZone, p_newArea, p_oldZone,
 
   -- Checking flags
   if m_newZoneType == AREA_SANCTUARY then
+    p_player:SetSanctuary( true );
     p_player:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You're entering a "..TXT_SANCTUARY..".|r", p_player );
     return;
   end
 
   if m_newZoneType == AREA_SAFEZONE then
+    p_player:SetSanctuary( true );
     p_player:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You're entering a "..TXT_SAFEZONE..".|r", p_player );
     return;
   end
 
   if m_newZoneType == AREA_WILDERNESS then
+    p_player:SetSanctuary( false );
     p_player:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You're now in the "..TXT_WILDERNESS..".|r", p_player );
-    p_player:SendChatMessageToPlayer( 0, 0, PRE_WARNING.."Your items will be "..COLOR_RED.."dropped"..COLOR_DEFAULT.." if you die here.|r", p_player );
+    p_player:SendChatMessageToPlayer( 0, 0, PRE_WARNING.."Your items will be "..TXT_DROPPED.." if you die here.|r", p_player );
     return;
   end
 end

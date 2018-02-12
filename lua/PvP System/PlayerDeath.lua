@@ -22,12 +22,12 @@ local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
     if DEBUG_MODE == false then
       return;
     else
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You've been killed as |cff699AFEGameMaster|cffFFFFFF.|r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You've been killed as "..COLOR_GAMEMASTER.."GameMaster"..COLOR_DEFAULT..".|r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, "=======================================|r", p_victim );
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Killer : "..PRE_PLAYER..p_killer:GetName().." |r", p_victim );
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Area : "..GetAreaName( p_victim:GetAreaId(), 0 ).." (|r#"..p_victim:GetAreaId().."|cffFFFFFF)|r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Killer : "   ..PRE_PLAYER..p_killer:GetName().." |r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Area : "     ..GetAreaName( p_victim:GetAreaId(), 0 ).." (|r#"..p_victim:GetAreaId()..COLOR_DEFAULT..")|r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Sanctuary : "..COLOR_SANCTUARY..tostring( IsSanctuary( p_victim:GetAreaId() ) ).." |r", p_victim );
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Safezone : "..COLOR_SAFEZONE..tostring( in_array( p_victim:GetAreaId(), LIST_SAFEZONES ) ).." |r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Safezone : " ..COLOR_SAFEZONE..tostring( in_array( p_victim:GetAreaId(), LIST_SAFEZONES ) ).." |r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, "=======================================|r", p_victim );
     end
   end
