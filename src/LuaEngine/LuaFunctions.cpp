@@ -96,7 +96,6 @@ luaL_Reg GlobalMethods[] =
     { "GetGUIDType", &LuaGlobalFunctions::GetGUIDType },
     { "GetGUIDEntry", &LuaGlobalFunctions::GetGUIDEntry },
     { "GetAreaName", &LuaGlobalFunctions::GetAreaName },
-    { "IsSanctuary", &LuaGlobalFunctions::IsSanctuary },
     { "bit_not", &LuaGlobalFunctions::bit_not },
     { "bit_xor", &LuaGlobalFunctions::bit_xor },
     { "bit_rshift", &LuaGlobalFunctions::bit_rshift },
@@ -116,6 +115,7 @@ luaL_Reg GlobalMethods[] =
     { "IsEquipmentPos", &LuaGlobalFunctions::IsEquipmentPos },
     { "IsBankPos", &LuaGlobalFunctions::IsBankPos },
     { "IsBagPos", &LuaGlobalFunctions::IsBagPos },
+    { "IsSanctuary", &LuaGlobalFunctions::IsSanctuary },
 
     // Other
     { "ReloadEluna", &LuaGlobalFunctions::ReloadEluna },
