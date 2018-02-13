@@ -10,8 +10,22 @@
 
 local function OnPlayerZoneChange( _, p_player, p_newZone, p_newArea, p_oldZone, p_oldArea )
 
-  local m_newZoneType  = AREA_WILDERNESS;
-  local m_oldZoneType  = AREA_WILDERNESS;
+  -- Warn about being in forbidden zone and teleport
+  if( in_array( m_mapID, LIST_ALLOWED_MAPS ) == false ) then
+    PlayerWorldAccessControl( _, p_player ); -- Defined in AccessControl.lua
+    return;
+  end
+
+  local m_newZoneType = AREA_WILDERNESS;
+  local m_oldZoneType = AREA_WILDERNESS;
+
+  -- Prevent errors on login
+  if( p_oldZone == nil ) then
+    p_oldZone = 0;
+  end
+  if( p_oldArea == nil ) then
+    p_oldArea = 0;
+  end
 
   -- Prevent display on death/respawn
   if p_newZone == p_oldZone and p_newArea == p_oldArea then
