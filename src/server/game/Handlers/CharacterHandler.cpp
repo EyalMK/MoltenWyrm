@@ -331,7 +331,10 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
 
             if (disabled)
             {
-                data << uint8(CHAR_CREATE_DISABLED);
+                TC_LOG_ERROR("network", "Account:[%d] tried to create character with forbidden race !", GetAccountId());
+								// CHAR_CREATE_CHARACTER_RACE_ONLY doesn't work (no message) !
+								// CHAR_CREATE_RESTRICTED_RACECLASS doesn't work (no message) !
+                data << uint8(CHAR_CREATE_FAILED);
                 SendPacket(&data);
                 return;
             }
@@ -379,7 +382,8 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
         uint32 raceMaskDisabled = sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_RACEMASK);
         if ((1 << (race_ - 1)) & raceMaskDisabled)
         {
-            data << uint8(CHAR_CREATE_RESTRICTED_RACECLASS);
+            TC_LOG_ERROR("network", "Account:[%d] tried to create character with forbidden race !", GetAccountId());
+            data << uint8(CHAR_CREATE_FAILED);
             SendPacket(&data);
             return;
         }
@@ -390,7 +394,8 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
         uint32 classMaskDisabled = sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_CLASSMASK);
         if ((1 << (class_ - 1)) & classMaskDisabled)
         {
-            data << uint8(CHAR_CREATE_RESTRICTED_RACECLASS);
+	          TC_LOG_ERROR("network", "Account:[%d] tried to create character with forbidden class !", GetAccountId());
+            data << uint8(CHAR_CREATE_FAILED);
             SendPacket(&data);
             return;
         }
