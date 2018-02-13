@@ -1035,7 +1035,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
 	bool t_addonsLoaded = m_Session->ReadAddonsInfo(addonsData);
 	if( !t_addonsLoaded )
 	{
-		SendAuthResponseError(AUTH_UNAVAILABLE);
+		SendAuthResponseError(AUTH_VERSION_MISMATCH);
 		TC_LOG_ERROR("network", "WorldSocket::HandleAuthSession: User tries to login without mandatory addons activated/installed.");
 		m_Session->KickPlayer();
 		return -1;

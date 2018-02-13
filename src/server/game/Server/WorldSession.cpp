@@ -946,7 +946,7 @@ bool WorldSession::ReadAddonsInfo(WorldPacket &data)
 			// Skull : Checking mandatory addons, version and enable state
 			if( addonName == "MoltenWyrm_Interface" )
 			{
-				TC_LOG_ERROR("network", "ADDON: Mandatory Addon %s FOUND", addonName.c_str() );
+                TC_LOG_INFO("network", "ADDON: Mandatory Addon '%s' FOUND", addonName.c_str() );
 				t_mandatoryLoaded = true;
 			}
 
