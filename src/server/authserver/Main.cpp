@@ -111,31 +111,31 @@ extern int main(int argc, char** argv)
         printf("Verify that the file exists and has \'[authserver]\' written in the top of the file!\n");
         return 1;
     }
-
-	TC_LOG_FATAL("server.authserver", "   ,,                                                              ");
-	TC_LOG_FATAL("server.authserver", "  `''*$b..                   " _PACKAGENAME "                      ");
-	TC_LOG_FATAL("server.authserver", "       ''*$o.           Authentication Server                      ");
-	TC_LOG_FATAL("server.authserver", "           '$$o.     " FILEVERSION " (" BUILD_PLATFORM ")          ");
-	TC_LOG_FATAL("server.authserver", "             '*$$o.                                                ");
-	TC_LOG_FATAL("server.authserver", "                '$$$o.                                             ");
-	TC_LOG_FATAL("server.authserver", "                  '$$$$bo...       ..o:                            ");
-	TC_LOG_FATAL("server.authserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
-	TC_LOG_FATAL("server.authserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
-	TC_LOG_FATAL("server.authserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
-	TC_LOG_FATAL("server.authserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
-	TC_LOG_FATAL("server.authserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
-	TC_LOG_FATAL("server.authserver", "                 '$$$o.4$$$$$$$$X                                  ");
-	TC_LOG_FATAL("server.authserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
-	TC_LOG_FATAL("server.authserver", "                         .X$$$$$$$$$$$P                            ");
-	TC_LOG_FATAL("server.authserver", "                        $$P''V$$$$$$$:    .                        ");
-	TC_LOG_FATAL("server.authserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
-	TC_LOG_FATAL("server.authserver", "                           .oP''   '$$$$$$b.  .$;                  ");
-	TC_LOG_FATAL("server.authserver", "                                    A$$$$$$$$$$P                   ");
-	TC_LOG_FATAL("server.authserver", "         ----------------------     '  '$$$$$P'                    ");
-	TC_LOG_FATAL("server.authserver", "         - (c)2017 MoltenWyrm -         $$P*'                      ");
-	TC_LOG_FATAL("server.authserver", "         ----------------------        .$'                         ");
-	TC_LOG_FATAL("server.authserver", "                                       '                           ");
-	TC_LOG_FATAL("server.authserver", "\n");
+    
+    TC_LOG_FATAL("server.authserver", "   ,,                                                              ");
+    TC_LOG_FATAL("server.authserver", "  `''*$b..                   " _PACKAGENAME "                      ");
+    TC_LOG_FATAL("server.authserver", "       ''*$o.           Authentication Server                      ");
+    TC_LOG_FATAL("server.authserver", "           '$$o.         " FILEVERSION " (" BUILD_PLATFORM ")      ");
+    TC_LOG_FATAL("server.authserver", "             '*$$o.                                                ");
+    TC_LOG_FATAL("server.authserver", "                '$$$o.                                             ");
+    TC_LOG_FATAL("server.authserver", "                  '$$$$bo...       ..o:                            ");
+    TC_LOG_FATAL("server.authserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
+    TC_LOG_FATAL("server.authserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
+    TC_LOG_FATAL("server.authserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
+    TC_LOG_FATAL("server.authserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
+    TC_LOG_FATAL("server.authserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
+    TC_LOG_FATAL("server.authserver", "                 '$$$o.4$$$$$$$$X                                  ");
+    TC_LOG_FATAL("server.authserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
+    TC_LOG_FATAL("server.authserver", "                         .X$$$$$$$$$$$P                            ");
+    TC_LOG_FATAL("server.authserver", "                        $$P''V$$$$$$$:    .                        ");
+    TC_LOG_FATAL("server.authserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
+    TC_LOG_FATAL("server.authserver", "                           .oP''   '$$$$$$b.  .$;                  ");
+    TC_LOG_FATAL("server.authserver", "                                    A$$$$$$$$$$P                   ");
+    TC_LOG_FATAL("server.authserver", "         ----------------------     '  '$$$$$P'                    ");
+    TC_LOG_FATAL("server.authserver", "         - (c)2018 MoltenWyrm -         $$P*'                      ");
+    TC_LOG_FATAL("server.authserver", "         ----------------------        .$'                         ");
+    TC_LOG_FATAL("server.authserver", "                                       '                           ");
+    TC_LOG_FATAL("server.authserver", "\n");
 
     TC_LOG_INFO("server.authserver", "Using configuration file %s.", configFile);
     //TC_LOG_INFO("server.authserver", "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));

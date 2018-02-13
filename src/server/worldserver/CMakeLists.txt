@@ -184,22 +184,9 @@ target_link_libraries(worldserver
 )
 
 if( WIN32 )
-  if ( MSVC )
-    add_custom_command(TARGET worldserver
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/worldserver.conf.dist ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/
-    )
-  elseif ( MINGW )
-    add_custom_command(TARGET worldserver
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/worldserver.conf.dist ${CMAKE_BINARY_DIR}/bin/
-    )
-  endif()
-endif()
-
-if( WIN32 )
   install(TARGETS worldserver DESTINATION "${CMAKE_INSTALL_PREFIX}")
   install(FILES worldserver.conf.dist DESTINATION "${CMAKE_INSTALL_PREFIX}")
+	set_target_properties(worldserver PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_INSTALL_PREFIX}/debug/" RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_INSTALL_PREFIX}")
 elseif( UNIX )
   install(TARGETS worldserver DESTINATION bin)
   install(FILES worldserver.conf.dist DESTINATION ${CONF_DIR})

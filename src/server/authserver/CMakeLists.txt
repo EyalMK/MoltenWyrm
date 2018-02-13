@@ -83,20 +83,7 @@ target_link_libraries(authserver
 )
 
 if( WIN32 )
-  if ( MSVC )
-    add_custom_command(TARGET authserver
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/authserver.conf.dist ${CMAKE_BINARY_DIR}/bin/$(ConfigurationName)/
-    )
-  elseif ( MINGW )
-    add_custom_command(TARGET authserver
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/authserver.conf.dist ${CMAKE_BINARY_DIR}/bin/
-    )
-  endif()
-endif()
-
-if( WIN32 )
+  set_target_properties(authserver PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_INSTALL_PREFIX}/debug/" RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_INSTALL_PREFIX}")
   install(TARGETS authserver DESTINATION "${CMAKE_INSTALL_PREFIX}")
   install(FILES authserver.conf.dist DESTINATION "${CMAKE_INSTALL_PREFIX}")
 elseif( UNIX )

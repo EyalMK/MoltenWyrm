@@ -18,58 +18,9 @@ if(NOT BUILDDIR)
   set(BUILDDIR ${CMAKE_BINARY_DIR})
 endif()
 
-if(WITHOUT_GIT)
-  set(rev_date "1970-01-01 00:00:01 +0000")
-  set(rev_hash "unknown")
-  set(rev_branch "Archived")
-else()
-  if(GIT_EXECUTABLE)
-    # Create a revision-string that we can use
-    execute_process(
-      COMMAND "${GIT_EXECUTABLE}" describe --dirty=+ --abbrev=12
-      WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-      OUTPUT_VARIABLE rev_info
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_QUIET
-    )
-
-    # And grab the commits timestamp
-    execute_process(
-      COMMAND "${GIT_EXECUTABLE}" show -s --format=%ci
-      WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-      OUTPUT_VARIABLE rev_date
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_QUIET
-    )
-
-    # Also retrieve branch name
-    execute_process(
-      COMMAND "${GIT_EXECUTABLE}" rev-parse --abbrev-ref HEAD
-      WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-      OUTPUT_VARIABLE rev_branch
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_QUIET
-    )
-  endif()
-
-  # Last minute check - ensure that we have a proper revision
-  # If everything above fails (means the user has erased the git revision control directory or removed the origin/HEAD tag)
-  if(NOT rev_info)
-    # No valid ways available to find/set the revision/hash, so let's force some defaults
-    message(STATUS "
-    Could not find a proper repository signature (hash) - you may need to pull tags with git fetch -t
-    Continuing anyway - note that the versionstring will be set to \"unknown 1970-01-01 00:00:00 (Archived)\"")
-    set(rev_date "1970-01-01 00:00:00 +0000")
-    set(rev_hash "unknown")
-    set(rev_branch "Master")
-  else()
-    # Extract information required to build a proper versionstring
-	string(REGEX REPLACE -[a-z0-9+]+ "" rev_ver ${rev_info})
-    string(REGEX REPLACE ${rev_ver}-|[0-9]+-g "" rev_hash ${rev_info})
-	string(REGEX REPLACE [a-z] "" rev_ver ${rev_ver})
-	string(REGEX REPLACE [.*] ", " rev_ver ${rev_ver})
-  endif()
-endif()
+string(TIMESTAMP rev_date "%d-%m-%Y %H:%M:%S")
+string(SHA1 rev_hash $(rev_date))
+set(rev_branch "Master")
 
 # Create the actual revision.h file from the above params
   configure_file(

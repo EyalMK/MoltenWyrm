@@ -136,31 +136,31 @@ int Master::Run()
     OpenSSLCrypto::threadsSetup();
     BigNumber seed1;
     seed1.SetRand(16 * 8);
-
-	TC_LOG_FATAL("server.worldserver", "   ,,                                                              ");
-	TC_LOG_FATAL("server.worldserver", "  `''*$b..                   " _PACKAGENAME "                      ");
-	TC_LOG_FATAL("server.worldserver", "       ''*$o.               World Server                           ");
-	TC_LOG_FATAL("server.worldserver", "           '$$o.     " FILEVERSION " (" BUILD_PLATFORM ")          ");
-	TC_LOG_FATAL("server.worldserver", "             '*$$o.                                                ");
-	TC_LOG_FATAL("server.worldserver", "                '$$$o.                                             ");
-	TC_LOG_FATAL("server.worldserver", "                  '$$$$bo...       ..o:                            ");
-	TC_LOG_FATAL("server.worldserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
-	TC_LOG_FATAL("server.worldserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
-	TC_LOG_FATAL("server.worldserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
-	TC_LOG_FATAL("server.worldserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
-	TC_LOG_FATAL("server.worldserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
-	TC_LOG_FATAL("server.worldserver", "                 '$$$o.4$$$$$$$$X                                  ");
-	TC_LOG_FATAL("server.worldserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
-	TC_LOG_FATAL("server.worldserver", "                         .X$$$$$$$$$$$P                            ");
-	TC_LOG_FATAL("server.worldserver", "                        $$P''V$$$$$$$:    .                        ");
-	TC_LOG_FATAL("server.worldserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
-	TC_LOG_FATAL("server.worldserver", "                           .oP''   '$$$$$$b.  .$;                  ");
-	TC_LOG_FATAL("server.worldserver", "                                    A$$$$$$$$$$P                   ");
-	TC_LOG_FATAL("server.worldserver", "         ----------------------     '  '$$$$$P'                    ");
-	TC_LOG_FATAL("server.worldserver", "         - (c)2017 MoltenWyrm -         $$P*'                      ");
-	TC_LOG_FATAL("server.worldserver", "         ----------------------        .$'                         ");
-	TC_LOG_FATAL("server.worldserver", "                                       '                           ");
-	TC_LOG_FATAL("server.worldserver", "\n");
+    
+    TC_LOG_FATAL("server.worldserver", "   ,,                                                              ");
+    TC_LOG_FATAL("server.worldserver", "  `''*$b..                   " _PACKAGENAME "                      ");
+    TC_LOG_FATAL("server.worldserver", "       ''*$o.               World Server                           ");
+    TC_LOG_FATAL("server.authserver", "           '$$o.         " FILEVERSION " (" BUILD_PLATFORM ")       ");
+    TC_LOG_FATAL("server.worldserver", "             '*$$o.                                                ");
+    TC_LOG_FATAL("server.worldserver", "                '$$$o.                                             ");
+    TC_LOG_FATAL("server.worldserver", "                  '$$$$bo...       ..o:                            ");
+    TC_LOG_FATAL("server.worldserver", "                    '$$$$$$$$booocS$$$    ..    ,.                 ");
+    TC_LOG_FATAL("server.worldserver", "                 '.    '*$$$$SP     V$o..o$$. .$$$b                ");
+    TC_LOG_FATAL("server.worldserver", "                  '$$o. .$$$$$o. ...A$$$$$$$$$$$$$$b               ");
+    TC_LOG_FATAL("server.worldserver", "            ''bo.   '*$$$$$$$$$$$$$$$$$$$$P*$$$$$$$$:              ");
+    TC_LOG_FATAL("server.worldserver", "               '$$.    V$$$$$$$$$P'**''*''   VP  * 'l              ");
+    TC_LOG_FATAL("server.worldserver", "                 '$$$o.4$$$$$$$$X                                  ");
+    TC_LOG_FATAL("server.worldserver", "                  '*$$$$$$$$$$$$$AoA$o                             ");
+    TC_LOG_FATAL("server.worldserver", "                         .X$$$$$$$$$$$P                            ");
+    TC_LOG_FATAL("server.worldserver", "                        $$P''V$$$$$$$:    .                        ");
+    TC_LOG_FATAL("server.worldserver", "                      .*'    A$$$$$$$$o.4;'     .                  ");
+    TC_LOG_FATAL("server.worldserver", "                           .oP''   '$$$$$$b.  .$;                  ");
+    TC_LOG_FATAL("server.worldserver", "                                    A$$$$$$$$$$P                   ");
+    TC_LOG_FATAL("server.worldserver", "         ----------------------     '  '$$$$$P'                    ");
+    TC_LOG_FATAL("server.worldserver", "         - (c)2018 MoltenWyrm -         $$P*'                      ");
+    TC_LOG_FATAL("server.worldserver", "         ----------------------        .$'                         ");
+    TC_LOG_FATAL("server.worldserver", "                                       '                           ");
+    TC_LOG_FATAL("server.worldserver", "\n");
 
     /// worldserver PID file creation
     std::string pidFile = sConfigMgr->GetStringDefault("PidFile", "");

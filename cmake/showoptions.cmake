@@ -1,12 +1,13 @@
 # output generic information about the core and buildtype chosen
 message("")
-message("* MoltenWyrm revision       : ${rev_hash} ${rev_date} (${rev_branch} branch)")
+message("* MoltenWyrm build date : ${rev_date}")
+message("* MoltenWyrm build hash : ${rev_hash}")
 if( UNIX )
   message("* MoltenWyrm buildtype      : ${CMAKE_BUILD_TYPE}")
 endif()
 if( MSVC )
-  message("* Compiler       : Microsoft Visual Studio")
-  message("* Compiler flags : ${CMAKE_CXX_FLAGS}")
+  message("* Compiler              : Microsoft Visual Studio")
+  message("* Compiler flags        : ${CMAKE_CXX_FLAGS}")
 endif()
 message("")
 

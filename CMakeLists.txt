@@ -14,13 +14,13 @@ project(MoltenWyrm-Core)
 
 # CMake policies (can not be handled elsewhere)
 cmake_minimum_required(VERSION 2.8)
-cmake_policy(SET CMP0005 OLD)
+#cmake_policy(SET CMP0005 OLD)
 
 if(MSVC)
   # Reset MSVC compiler flags
     set(NOPCH 1)
     set(CMAKE_INSTALL_PREFIX "C:/Workspace/Mangos/MoltenWyrm_Server/bin")
-    set(CMAKE_CC_FLAGS "/DWIN32 /D_WINDOWS /GR /EHsc /MP /wd4996 /wd4355 /wd4244 /wd4985 /wd4267 /wd4619 /Zm500 /we4263 /we4264 /wd4577 /wd4005 /w")
+    set(CMAKE_CC_FLAGS "/DWIN32 /D_WINDOWS /GR /EHsc /MP /wd4996 /wd4355 /wd4244 /wd4985 /wd4267 /wd4619 /Zm500 /we4263 /we4264 /wd4577 /wd4005")
     set(CMAKE_CXX_FLAGS "/DWIN32 /D_WINDOWS /GR /EHsc /MP /wd4996 /wd4355 /wd4244 /wd4985 /wd4267 /wd4619 /Zm500 /we4263 /we4264 /wd4577 /wd4005")
 endif()
 
