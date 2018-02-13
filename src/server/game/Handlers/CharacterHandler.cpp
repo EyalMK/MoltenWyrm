@@ -379,7 +379,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
         uint32 raceMaskDisabled = sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_RACEMASK);
         if ((1 << (race_ - 1)) & raceMaskDisabled)
         {
-            data << uint8(CHAR_CREATE_DISABLED);
+            data << uint8(CHAR_CREATE_RESTRICTED_RACECLASS);
             SendPacket(&data);
             return;
         }
@@ -390,7 +390,7 @@ void WorldSession::HandleCharCreateOpcode(WorldPacket& recvData)
         uint32 classMaskDisabled = sWorld->getIntConfig(CONFIG_CHARACTER_CREATING_DISABLED_CLASSMASK);
         if ((1 << (class_ - 1)) & classMaskDisabled)
         {
-            data << uint8(CHAR_CREATE_DISABLED);
+            data << uint8(CHAR_CREATE_RESTRICTED_RACECLASS);
             SendPacket(&data);
             return;
         }
