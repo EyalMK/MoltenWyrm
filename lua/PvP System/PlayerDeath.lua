@@ -10,8 +10,8 @@
 
 local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
 
-	local m_gm  	   = p_victim:IsGM();
-	local m_rest     = p_victim:IsRested();
+	local m_gm   = p_victim:IsGM();
+	local m_rest = p_victim:IsRested();
 
   if m_rest then
     p_victim:SendChatMessageToPlayer( 0, 0, "Rest", p_victim );
@@ -92,6 +92,3 @@ RegisterPlayerEvent( PLAYER_EVENT_ON_KILLED_BY_CREATURE, RemoveItemsOnDeath );
 -- Forcer la rez au cimetière après la mort
 -- Ajouter la fonction qui permet de savoir si une zone/area est un sanctuaire
 -- Systeme de grade/pts a chaque kill
---
---
--- 

@@ -17,3 +17,18 @@ AREA_ARENA        = 4;
 LIST_SAFEZONES = {
   5402, -- Warden's Veil (Tol Barad)
 };
+
+-- List
+LIST_ALLOWED_MAPS = {
+  0,   -- Azeroth
+  1,   -- Kalimdor
+  732, -- Tol Barad
+};
+
+-- HUB // TODO : Get a real one
+TOL_BARAD = {
+  map = 732,
+  x   = -825,
+  y   = 1503,
+  z   = 175.8,
+  o   = 0.05 };
