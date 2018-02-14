@@ -1,10 +1,10 @@
-function in_array ( needle, haystack )
-  for _,v in pairs(haystack) do
-    if (v==needle) then
-      return true
+function in_array( needle, haystack )
+  for _,v in pairs( haystack ) do
+    if( v == needle ) then
+      return true;
     end
   end
-  return false
+  return false;
 end
 
 function HoldInventory( p_player )

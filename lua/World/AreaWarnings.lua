@@ -8,16 +8,24 @@
 -- Author : Skullbot
 ---------------------------------------------------
 
-local function OnPlayerZoneChange( _, p_player, p_newZone, p_newArea, p_oldZone, p_oldArea )
-
-  -- Warn about being in forbidden zone and teleport
-  if( in_array( m_mapID, LIST_ALLOWED_MAPS ) == false ) then
-    PlayerWorldAccessControl( _, p_player ); -- Defined in AccessControl.lua
-    return;
+local function PlayerWorldAccessControl( _, p_player, p_mapID )
+  if( in_array( p_mapID, LIST_ALLOWED_MAPS ) == false and p_player:IsGM() == false ) then
+    p_player:SendChatMessageToPlayer( 0, 0, PRE_WARNING.."It's a forbidden area. You will be teleported.|r", p_player );
+    p_player:Teleport( TOL_BARAD.map, TOL_BARAD.x, TOL_BARAD.y, TOL_BARAD.z, TOL_BARAD.o );
   end
+end
+
+local function OnPlayerZoneChange( _, p_player, p_newZone, p_newArea, p_oldZone, p_oldArea )
 
   local m_newZoneType = AREA_WILDERNESS;
   local m_oldZoneType = AREA_WILDERNESS;
+  local m_mapID       = p_player:GetMapId();
+
+  -- Warn about being in forbidden zone and teleport
+  if( in_array( m_mapID, LIST_ALLOWED_MAPS ) == false ) then
+    PlayerWorldAccessControl( _, p_player, m_mapID ); -- Defined in AccessControl.lua
+    return; -- Prevent other area messages from being displayed
+  end
 
   -- Prevent errors on login
   if( p_oldZone == nil ) then
