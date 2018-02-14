@@ -424,6 +424,18 @@ namespace LuaPlayer
     }
 #endif
 
+  /**
+	 * Returns 'true' if the [Player] is immune to everything.
+	 *
+	 * @param uint32 entry
+	 * @return bool isImmune
+	 */
+  int IsImmuneToDamage(lua_State* L, Player* player)
+  {
+      Eluna::Push(L, player->isTotalImmune());
+      return 1;
+  }
+
     /**
      * Returns 'true' if the [Player] satisfies all requirements to complete the quest entry.
      *
