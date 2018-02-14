@@ -226,6 +226,16 @@ ElunaRegister<WorldObject> WorldObjectMethods[] =
 
     // Boolean
     { "IsWithinLoS", &LuaWorldObject::IsWithinLoS },
+    { "IsInMap", &LuaWorldObject::IsInMap },
+    { "IsWithinDist3d", &LuaWorldObject::IsWithinDist3d },
+    { "IsWithinDist2d", &LuaWorldObject::IsWithinDist2d },
+    { "IsWithinDist", &LuaWorldObject::IsWithinDist },
+    { "IsWithinDistInMap", &LuaWorldObject::IsWithinDistInMap },
+    { "IsInRange", &LuaWorldObject::IsInRange },
+    { "IsInRange2d", &LuaWorldObject::IsInRange2d },
+    { "IsInRange3d", &LuaWorldObject::IsInRange3d },
+    { "IsInFront", &LuaWorldObject::IsInFront },
+    { "IsInBack", &LuaWorldObject::IsInBack },
 
     // Other
     { "SummonGameObject", &LuaWorldObject::SummonGameObject },
@@ -362,7 +372,6 @@ ElunaRegister<Unit> UnitMethods[] =
     { "IsStopped", &LuaUnit::IsStopped },
     { "HasUnitState", &LuaUnit::HasUnitState },
     { "IsQuestGiver", &LuaUnit::IsQuestGiver },
-    { "IsWithinDistInMap", &LuaUnit::IsWithinDistInMap },
     { "IsInAccessiblePlaceFor", &LuaUnit::IsInAccessiblePlaceFor },
     { "IsVendor", &LuaUnit::IsVendor },
     { "IsRooted", &LuaUnit::IsRooted },
