@@ -15,6 +15,7 @@
 #include "Chat.h"
 #include "Channel.h"
 #include "DBCStores.h"
+#include "GameEventMgr.h"
 #include "GossipDef.h"
 #include "GridNotifiers.h"
 #include "GridNotifiersImpl.h"

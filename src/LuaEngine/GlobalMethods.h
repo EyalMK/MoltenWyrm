@@ -524,6 +524,29 @@ namespace LuaGlobalFunctions
 		return 1;
 	}
 
+  /**
+     * Returns the currently active game events.
+     *
+     * @return table activeEvents
+     */
+  int GetActiveGameEvents(lua_State* L)
+  {
+      lua_newtable(L);
+      int tbl = lua_gettop(L);
+      uint32 counter = 1;
+      GameEventMgr::ActiveEvents const& activeEvents = sGameEventMgr->GetActiveEventList();
+
+      for (GameEventMgr::ActiveEvents::const_iterator i = activeEvents.begin(); i != activeEvents.end(); ++i)
+      {
+          Eluna::Push(L, *i);
+          lua_rawseti(L, tbl, counter);
+          counter++;
+      }
+
+      lua_settop(L, tbl);
+      return 1;
+  }
+
     static int RegisterEntryHelper(lua_State* L, int regtype)
     {
         uint32 id = Eluna::CHECKVAL<uint32>(L, 1);
@@ -2347,6 +2370,20 @@ namespace LuaGlobalFunctions
         return 1;
     }
 
+  /**
+     * Returns `true` if the event is currently active, otherwise `false`.
+     *
+     * @param uint16 eventId : the event id to check.
+     * @return bool isActive
+     */
+  int IsGameEventActive(lua_State* L)
+  {
+      uint16 eventId = Eluna::CHECKVAL<uint16>(L, 1);
+
+      Eluna::Push(L, sGameEventMgr->IsActiveEvent(eventId));
+      return 1;
+  }
+
     /**
      * Returns the server's current time.
      *
@@ -2416,6 +2453,36 @@ namespace LuaGlobalFunctions
         ELUNA_LOG_DEBUG("%s", GetStackAsString(L).c_str());
         return 0;
     }
+
+  /**
+    * Starts the event by eventId, if force is set, the event will force start regardless of previous event state.
+    *
+    * @param uint16 eventId : the event id to start.
+    * @param bool force = false : set `true` to force start the event.
+    */
+  int StartGameEvent(lua_State* L)
+  {
+      uint16 eventId = Eluna::CHECKVAL<uint16>(L, 1);
+      bool force = Eluna::CHECKVAL<bool>(L, 2, false);
+
+      sGameEventMgr->StartEvent(eventId, force);
+      return 0;
+  }
+
+  /**
+	* Stops the event by eventId, if force is set, the event will force stop regardless of previous event state.
+	*
+	* @param uint16 eventId : the event id to stop.
+	* @param bool force = false : set `true` to force stop the event.
+	*/
+  int StopGameEvent(lua_State* L)
+  {
+      uint16 eventId = Eluna::CHECKVAL<uint16>(L, 1);
+      bool force = Eluna::CHECKVAL<bool>(L, 2, false);
+
+      sGameEventMgr->StopEvent(eventId, force);
+      return 0;
+  }
 
     /**
      * Returns an object representing a `long long` (64-bit) value.
