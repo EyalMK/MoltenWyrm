@@ -10,8 +10,9 @@
 
 local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
 
-	local m_gm   = p_victim:IsGM();
-	local m_rest = p_victim:IsRested();
+  local m_gm   = p_victim:IsGM();
+  local m_rest = p_victim:IsRested();
+  local m_area = p_victim:GetAreaId();
 
   if m_rest then
     p_victim:SendChatMessageToPlayer( 0, 0, "Rest", p_victim );
@@ -26,8 +27,8 @@ local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
       p_victim:SendChatMessageToPlayer( 0, 0, "=======================================|r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Killer : "   ..PRE_PLAYER..p_killer:GetName().." |r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Area : "     ..GetAreaName( p_victim:GetAreaId(), 0 ).." (|r#"..p_victim:GetAreaId()..COLOR_DEFAULT..")|r", p_victim );
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Sanctuary : "..COLOR_SANCTUARY..tostring( IsSanctuary( p_victim:GetAreaId() ) ).." |r", p_victim );
-      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Safezone : " ..COLOR_SAFEZONE..tostring( in_array( p_victim:GetAreaId(), LIST_SAFEZONES ) ).." |r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Sanctuary : "..COLOR_SANCTUARY..tostring( IsSanctuary( m_area ) ).." |r", p_victim );
+      p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."Safezone : " ..COLOR_SAFEZONE..tostring( in_array( m_area, LIST_SAFEZONES ) ).." |r", p_victim );
       p_victim:SendChatMessageToPlayer( 0, 0, "=======================================|r", p_victim );
     end
   end
@@ -51,13 +52,13 @@ local function RemoveItemsOnDeath( p_event, p_killer, p_victim )
     end
 
     -- Prevent loosing in sanctuaries, but should never happen as sanctuaries have PvP disabled
-    if( IsSanctuary( p_victim:GetAreaId() ) ) then
+    if( IsSanctuary( m_area ) ) then
       p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You've been killed in a "..TXT_SANCTUARY.." by "..PRE_PLAYER..p_killer:GetName().."|r", p_victim );
       return;
     end
 
     -- Prevent loosing in specific areas
-    if( in_array( p_victim:GetAreaId(), LIST_SAFEZONES ) ) then
+    if( in_array( m_area, LIST_SAFEZONES ) ) then
       p_victim:SendChatMessageToPlayer( 0, 0, PRE_BULLET.."You've been killed in a "..TXT_SAFEZONE.." by "..PRE_PLAYER..p_killer:GetName().."|r", p_victim );
       return;
     end
